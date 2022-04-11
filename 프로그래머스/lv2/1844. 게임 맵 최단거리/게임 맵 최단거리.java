@@ -1,51 +1,51 @@
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 class Solution {
-    
-    int[] dx = {1, 0, -1, 0};
-    int[] dy = {0, 1, 0, -1};
-    
+
+    int[][] maps, distance;
+    int height, width;
+
     public int solution(int[][] maps) {
-        int answer = 0;
-        
-        int[][] visited = new int[maps.length][maps[0].length];
-        
-        bfs(maps, visited);
-        answer = visited[maps.length-1][maps[0].length-1];
-        
-        if(answer == 0){
-            answer = -1;
+        this.maps = maps;
+        height = maps.length;
+        width = maps[0].length;
+        distance = new int[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                distance[i][j] = -1;
+            }
         }
-        
-        return answer;
+        bfs();
+        return distance[height - 1][width - 1];
     }
-    
-    public void bfs(int[][] maps, int[][] visited){
-        int x = 0;
-        int y = 0;
-        visited[x][y] = 1;
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{x, y});
-        
-        while(!queue.isEmpty()){
-            int[] current = queue.remove();
-            int cX = current[0];
-            int cY = current[1];
-            
-            for(int i = 0; i < 4; i++){
-                int nX = cX + dx[i];
-                int nY = cY + dy[i];
-                
-                if(nX < 0 || nX > maps.length-1 || nY < 0 || nY > maps[0].length-1)
-                    continue;
-                
-                if(visited[nX][nY] == 0 && maps[nX][nY] == 1){
-                    visited[nX][nY] = visited[cX][cY] + 1;
-                    queue.add(new int[]{nX, nY});
+
+    void bfs() {
+        int[] dy = {1, -1, 0, 0}, dx = {0, 0, 1, -1};
+        distance[0][0] = 1;
+        Queue<Node> q = new LinkedList<>();
+        q.add(new Node(0, 0));
+        while (!q.isEmpty()) {
+            Node curr = q.poll();
+            for (int d = 0; d < 4; d++) {
+                Node next = new Node(curr.y + dy[d], curr.x + dx[d]);
+                if (0 <= next.y && next.y < maps.length && 0 <= next.x && next.x < maps[0].length) {
+                    if (distance[next.y][next.x] == -1 && maps[next.y][next.x] == 1) {
+                        distance[next.y][next.x] = distance[curr.y][curr.x] + 1;
+                        q.add(next);
+                    }
                 }
             }
-            
         }
-        
+    }
+}
+
+class Node {
+
+    int y, x;
+
+    Node(int y, int x) {
+        this.y = y;
+        this.x = x;
     }
 }
