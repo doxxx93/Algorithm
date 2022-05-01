@@ -2,9 +2,6 @@ class Solution {
 
     public int solution(int[] arr) {
         int answer = arr[0];
-//        for (int i : arr) {
-//            answer = lcm(answer, arr[i]);
-//        }
         for (int i = 0; i < arr.length; i++) {
             answer = lcm(answer, arr[i]);
         }
