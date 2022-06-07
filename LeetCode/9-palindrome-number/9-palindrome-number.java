@@ -4,13 +4,13 @@ class Solution {
         if (x < 0) {
             return false;
         }
-        String str = String.valueOf(x);
-        int len = str.length();
-        for (int i = 0; i < len / 2; i++) {
-            if (str.charAt(i) != str.charAt(len - i - 1)) {
-                return false;
-            }
+
+        int reversed = 0;
+        int origin = x;
+        while (x > 0) {
+            reversed = reversed * 10 + x % 10;
+            x /= 10;
         }
-        return true;
+        return reversed == origin;
     }
 }
