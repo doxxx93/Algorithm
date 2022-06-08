@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 class Solution {
 
     public int[] solution(int[] lottos, int[] win_nums) {
@@ -22,7 +20,7 @@ class Solution {
             return 6;
         } else {
             return 7 - num;
-            
+
         }
     }
 
