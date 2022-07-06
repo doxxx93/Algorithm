@@ -1,22 +1,21 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Main {
+class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int A = Integer.parseInt(st.nextToken());
-        int B = Integer.parseInt(st.nextToken());
+        int a = Integer.parseInt(st.nextToken());
+        int b = Integer.parseInt(st.nextToken());
 
-        if (A * A == B) {
-            System.out.println(-A);
+        if (b == a * a) {
+            System.out.println(-a);
         } else {
-            System.out.println(
-                (-(int) Math.sqrt(A * A - B) - A) + " " + ((int) Math.sqrt(A * A - B) - A));
+            int sqrt = (int)Math.sqrt(a * a - b);
+            int x1 = -1 * sqrt - a;
+            int x2 = sqrt - a;
+            System.out.println(Math.min(x1, x2) + " " + Math.max(x1, x2));
         }
     }
-
 }
