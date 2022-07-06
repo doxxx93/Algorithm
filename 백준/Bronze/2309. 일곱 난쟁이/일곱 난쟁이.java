@@ -1,39 +1,30 @@
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
-public class Main {
+class Main {
 
     public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int sum = 0;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int[] arr = new int[9];
+        int sum = 0;
         for (int i = 0; i < 9; i++) {
-            arr[i] = sc.nextInt();
+            arr[i] = Integer.parseInt(br.readLine());
             sum += arr[i];
         }
-
         Arrays.sort(arr);
-
-        int index1 = 0;
-        int index2 = 0;
-        Loop1:
-        for (int i = 0; i < 9; i++) {
-            Loop2:
-            for (int j = 0; j < 9; j++) {
-                if (i == j) {
-                    continue;
-                }
-                if (arr[i] + arr[j] == sum - 100) {
-                    index1 = i;
-                    index2 = j;
-                    break Loop1;
+        int target = sum - 100;
+        int skip1 = 0;
+        int skip2 = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i+1; j <arr.length ; j++) {
+                if (arr[i] + arr[j] == target) {
+                    skip1 = i;
+                    skip2 = j;
                 }
             }
         }
-
-        for (int i = 0; i < 9; i++) {
-            if (i == index1 || i == index2) {
+        for (int i = 0; i < arr.length; i++) {
+            if (i == skip1 || i == skip2) {
                 continue;
             }
             System.out.println(arr[i]);
