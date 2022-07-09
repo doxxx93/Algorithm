@@ -10,9 +10,8 @@ class Main {
         for (int i = 0; i < arr.length; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
-        Arrays.sort(arr);
-        int n = arr[0];
-        int count = 1;
+        int n = 1;
+        int count = 0;
         while (true) {
             for (int i = 0; i < arr.length; i++) {
                 if (n >= arr[i] && n % arr[i] == 0) {
