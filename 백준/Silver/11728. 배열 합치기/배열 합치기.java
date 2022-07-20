@@ -1,53 +1,49 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int[] A = new int[N];
-        int[] B = new int[M];
+        int[] arr = new int[n];
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            A[i] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
+
+        int[] arr2 = new int[m];
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < M; i++) {
-            B[i] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < m; i++) {
+            arr2[i] = Integer.parseInt(st.nextToken());
         }
-        int index1 = 0;
-        int index2 = 0;
 
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int s1 = 0;
+        int s2 = 0;
 
-        while (index1 < N && index2 < M) {
-            if (A[index1] < B[index2]) {
-                bw.write(A[index1] + " ");
-                index1++;
+        StringBuilder sb = new StringBuilder();
+
+        while (s1 < n && s2 < m) {
+            if (arr[s1] < arr2[s2]) {
+                sb.append(arr[s1]).append(" ");
+                s1++;
             } else {
-                bw.write(B[index2] + " ");
-                index2++;
+                sb.append(arr2[s2]).append(" ");
+                s2++;
             }
         }
-        while (index1 < N) {
-            bw.write(A[index1] + " ");
-            index1++;
+        for (int i = s1; i < n; i++) {
+            sb.append(arr[i]).append(" ");
         }
-        while (index2 < M) {
-            bw.write(B[index2] + " ");
-            index2++;
+        for (int i = s2; i < m; i++) {
+            sb.append(arr2[i]).append(" ");
         }
 
-        bw.flush();
-        bw.close();
+        System.out.println(sb);
     }
 }
