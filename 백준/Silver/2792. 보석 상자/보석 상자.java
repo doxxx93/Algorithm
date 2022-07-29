@@ -17,7 +17,6 @@ public class Main {
             r = Math.max(r, arr[i]);
         }
 
-        int max = 0;
         int answer = 0;
 
         while (l <= r) {
