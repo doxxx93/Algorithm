@@ -1,56 +1,39 @@
-import static java.lang.Integer.*;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
-    static int n;
-    static int[][] arr;
-    static int max = MIN_VALUE;
-    static int min = MAX_VALUE;
-
-    static void input() throws IOException {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = parseInt(br.readLine());
-        arr = new int[n][3];
+        int n = Integer.parseInt(br.readLine());
+        long[][] arr = new long[n][3];
+        long max = Integer.MIN_VALUE;
+        long min = Integer.MAX_VALUE;
+        StringTokenizer st;
         for (int i = 0; i < n; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < 3; j++) {
-                arr[i][j] = parseInt(st.nextToken());
-                max = Math.max(max, arr[i][1]);
-                min = Math.min(min, arr[i][0]);
-            }
-        }
-    }
+            st = new StringTokenizer(br.readLine());
+            arr[i][0] = Long.parseLong(st.nextToken());
+            arr[i][1] = Long.parseLong(st.nextToken());
+            arr[i][2] = Long.parseLong(st.nextToken());
 
-    static long count(long l) {
-        long sum = 0;
-
-        for (int i = 0; i < n; i++) {
-            if (l >= arr[i][0]) {
-                sum += (Math.min(l, arr[i][1]) - arr[i][0]) / arr[i][2] + 1;
-            }
+            min = Math.min(min, arr[i][0]);
+            max = Math.max(max, arr[i][1]);
         }
 
-        return sum;
-    }
-
-    static boolean check(long l) {
-        long sum = count(l);
-        return sum % 2 == 1;
-    }
-
-    static void process() {
         long l = min;
         long r = max;
         long answer = 0;
-        long count;
+        long count = 0;
+
         while (l <= r) {
             long mid = (l + r) / 2;
-            if (check(mid)) {
+            long sum=0;
+            for (int i = 0; i < n; i++) {
+                if (mid >= arr[i][0]) {
+                    sum += (Math.min(mid, arr[i][1]) - arr[i][0]) / arr[i][2] + 1;
+                }
+            }
+            if (sum % 2 == 1) {
                 answer = mid;
                 r = mid - 1;
             } else {
@@ -61,14 +44,20 @@ public class Main {
         if (answer == 0) {
             System.out.println("NOTHING");
         } else {
-            count = count(answer) - count(answer - 1);
+            long large = 0;
+            for (int i = 0; i < n; i++) {
+                if (answer >= arr[i][0]) {
+                    large += (Math.min(answer, arr[i][1]) - arr[i][0]) / arr[i][2] + 1;
+                }
+            }
+            long small = 0;
+            for (int i = 0; i < n; i++) {
+                if (answer - 1 >= arr[i][0]) {
+                    small += (Math.min(answer-1, arr[i][1]) - arr[i][0]) / arr[i][2] + 1;
+                }
+            }
+            count = large - small;
             System.out.println(answer + " " + count);
         }
     }
-
-    public static void main(String[] args) throws IOException {
-        input();
-        process();
-    }
-
 }
