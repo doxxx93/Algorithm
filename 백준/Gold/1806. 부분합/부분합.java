@@ -8,26 +8,31 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int t = Integer.parseInt(st.nextToken());
-        List<Integer> al = new ArrayList<>(n + 1);
-
+        int[] arr = new int[n];
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            al.add(Integer.parseInt(st.nextToken()));
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        al.add(n, 0);
 
         int s = 0;
         int e = 0;
-        int sum = al.get(0);
-        int length = Integer.MAX_VALUE;
-        while (s <= e && e < n) {
-            if (sum < t) {
-                sum += al.get(++e);
+        int sum = 0;
+        int answer = Integer.MAX_VALUE;
+
+        while (true) {
+            if (sum >= t) {
+                answer = Math.min(answer, e - s);
+                sum -= arr[s++];
+            } else if (e == n) {
+                break;
             } else {
-                length = Math.min(length, e - s + 1);
-                sum -= al.get(s++);
+                sum += arr[e++];
             }
         }
-        System.out.println(length == Integer.MAX_VALUE ? 0 : length);
+        if (answer == Integer.MAX_VALUE) {
+            System.out.println(0);
+        } else {
+            System.out.println(answer);
+        }
     }
 }
