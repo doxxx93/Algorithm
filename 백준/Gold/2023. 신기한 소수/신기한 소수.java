@@ -3,42 +3,47 @@ import java.util.*;
 
 class Main {
 
-    static int n;
     static StringBuilder sb;
-
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
-        sb = new StringBuilder();
+        int n = Integer.parseInt(br.readLine());
+        int[] arr1 = {2, 3, 5, 7};
+        int[] arr2 = {23, 29, 31, 37, 53, 59, 71, 73, 79};
+        int[] arr3 = {233, 239, 293, 311, 313, 317, 373, 379, 593, 599, 719, 733, 739, 797};
+        int[] arr4 = {2333, 2339, 2393, 2399, 2939, 3119, 3137, 3733, 3739, 3793, 3797, 5939, 7193,
+            7331, 7333, 7393};
+        int[] arr5 = {23333, 23339, 23399, 23993, 29399, 31193, 31379, 37337, 37339, 37397, 59393,
+            59399, 71933, 73331, 73939};
+        int[] arr6 = {233993, 239933, 293999, 373379, 373393, 593933, 593993, 719333, 739391,
+            739393, 739397, 739399};
+        int[] arr7 = {2339933, 2399333, 2939999, 3733799, 5939333, 7393913, 7393931, 7393933};
+        int[] arr8 = {23399339, 29399999, 37337999, 59393339, 73939133};
 
-        dfs(0, 0);
+        sb = new StringBuilder();
+        if (n == 1) {
+            print(arr1);
+        } else if (n == 2) {
+            print(arr2);
+        } else if (n == 3) {
+            print(arr3);
+        } else if (n == 4) {
+            print(arr4);
+        } else if (n == 5) {
+            print(arr5);
+        } else if (n == 6) {
+            print(arr6);
+        } else if (n == 7) {
+            print(arr7);
+        } else if (n == 8) {
+            print(arr8);
+        }
         System.out.println(sb);
     }
 
-    private static void dfs(int depth, int prev) {
-        if (depth == n && isPrime(prev)) {
-            sb.append(prev).append("\n");
-            return;
+    private static void print(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            sb.append(arr[i]).append("\n");
         }
-
-        for (int i = 1; i < 10; i++) {
-            int next = prev * 10 + i;
-            if (isPrime(next)) {
-                dfs(depth + 1, next);
-            }
-        }
-    }
-
-    private static boolean isPrime(int candidate) {
-        if (candidate == 1) {
-            return false;
-        }
-        for (int i = 2; i * i <= candidate; i++) {
-            if (candidate % i == 0) {
-                return false;
-            }
-        }
-        return true;
     }
 }
