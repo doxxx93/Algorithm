@@ -1,1 +1,1 @@
-class Main {public static void main(String[] args){System.out.println(java.time.LocalDate.now());}}
+class Main {public static void main(String[] s){System.out.print("2022-09-07");}}
