@@ -1,26 +1,24 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
         long sum = 0;
-        int[] hi = new int[n];
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             sum += Integer.parseInt(st.nextToken());
         }
-        int[] ai = new int[n];
+        int[] arr = new int[n];
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            ai[i] = Integer.parseInt(st.nextToken());
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-
-        Arrays.sort(ai);
+        Arrays.sort(arr);
         for (int i = 0; i < n; i++) {
-            sum += ai[i] * i;
+            sum += arr[i] * i;
         }
         System.out.println(sum);
     }
