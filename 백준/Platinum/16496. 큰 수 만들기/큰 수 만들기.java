@@ -11,7 +11,7 @@ public class Main {
         for (int i = 0; i < n; i++) {
             numbers.add(st.nextToken());
         }
-        Collections.sort(numbers, (o1, o2) -> (o2 + o1).compareTo(o1 + o2));
+        numbers.sort((o1, o2) -> (o2 + o1).compareTo(o1 + o2));
         StringBuilder sb = new StringBuilder();
         if (numbers.get(0).equals("0")) {
             sb.append("0");
