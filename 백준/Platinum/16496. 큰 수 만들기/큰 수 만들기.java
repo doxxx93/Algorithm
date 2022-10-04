@@ -1,36 +1,23 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-
-        int T = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
-        String[] numbers = new String[T];
-
-        for (int i = 0; i < T; i++) {
-            numbers[i] = st.nextToken();
+        List<String> numbers = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            numbers.add(st.nextToken());
         }
-
-        Arrays.sort(numbers, new Comparator<>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return (o2 + o1).compareTo(o1 + o2);
-            }
-        });
-
-        if (numbers[0].equals("0")) {
+        Collections.sort(numbers, (o1, o2) -> (o2 + o1).compareTo(o1 + o2));
+        StringBuilder sb = new StringBuilder();
+        if (numbers.get(0).equals("0")) {
             sb.append("0");
         } else {
-            for (int i = 0; i < numbers.length; i++) {
-                sb.append(numbers[i]);
+            for (int i = 0; i < n; i++) {
+                sb.append(numbers.get(i));
             }
         }
         System.out.println(sb);
