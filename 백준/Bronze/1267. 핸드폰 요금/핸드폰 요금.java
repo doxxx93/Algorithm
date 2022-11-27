@@ -13,12 +13,12 @@ public class Main {
             .map(i -> (i / 30 + 1) * 10).sum();
         int m = Arrays.stream(second)
             .map(i -> (i / 60 + 1) * 15).sum();
-        if (y == m) {
-            System.out.println("Y M " + y);
-            return;
-        }
         if (y > m) {
             System.out.println("M " + m);
+            return;
+        }
+        if (y == m) {
+            System.out.println("Y M " + y);
             return;
         }
         System.out.println("Y " + y);
