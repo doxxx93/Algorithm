@@ -3,9 +3,7 @@ class Solution {
     int[] check = new int[100001];
 
     public int solution(int n) {
-        Solution sol = new Solution();
         int answer = dp(n);
-
         return answer;
     }
 

@@ -1,10 +1,10 @@
 # [level 2] 피보나치 수 - 12945 
 
-[문제 링크](https://programmers.co.kr/learn/courses/30/lessons/12945?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12945?itm_content=course14743) 
 
 ### 성능 요약
 
-메모리: 81.2 MB, 시간: 12.94 ms
+메모리: 75.6 MB, 시간: 12.89 ms
 
 ### 구분
 
@@ -57,6 +57,10 @@
 <h5>입출력 예 설명</h5>
 
 <p>피보나치수는 0번째부터 0, 1, 1, 2, 3, 5, ... 와 같이 이어집니다.</p>
+
+<h5>문제가 잘 안풀린다면😢</h5>
+
+<p>힌트가 필요한가요? [코딩테스트 연습 힌트 모음집]으로 오세요! → <a href="https://school.programmers.co.kr/learn/courses/14743?itm_content=lesson12945" target="_blank" rel="noopener">클릭</a></p>
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
