@@ -1,47 +1,46 @@
 import java.io.*;
-import java.util.*;
 
 public class Main {
 
-    final static int R = 0;
-    final static int G = 1;
-    final static int B = 2;
+    static final int R = 0;
+    static final int G = 1;
+    static final int B = 2;
 
-    static int[][] cost;
     static int[][] dp;
+    static int[][] cost;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
-
-        cost = new int[N][3];
-        dp = new int[N][3];
-
-        StringTokenizer st;
-        for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
-            cost[i][R] = Integer.parseInt(st.nextToken());
-            cost[i][G] = Integer.parseInt(st.nextToken());
-            cost[i][B] = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(br.readLine());
+        dp = new int[n][3];
+        cost = new int[n][3];
+        for (int i = 0; i < n; i++) {
+            String[] line = br.readLine().split(" ");
+            cost[i][R] = Integer.parseInt(line[R]);
+            cost[i][G] = Integer.parseInt(line[G]);
+            cost[i][B] = Integer.parseInt(line[B]);
         }
-
-        dp[0][R] = cost[0][R];
-        dp[0][G] = cost[0][G];
-        dp[0][B] = cost[0][B];
-
-        System.out.println(Math.min(solve(N-1, R), Math.min(solve(N-1, G), solve(N-1, B))));
+        System.out.println(Math.min(paint(n - 1, R), Math.min(paint(n - 1, G), paint(n - 1, B))));
     }
 
-    public static int solve(int N, int color) {
-        if (dp[N][color] == 0) {
-            if (color == R) {
-                dp[N][color] = Math.min(solve(N - 1, G), solve(N - 1, B)) + cost[N][R];
-            } else if (color == G) {
-                dp[N][color] = Math.min(solve(N - 1, R), solve(N - 1, B)) + cost[N][G];
-            } else {
-                dp[N][color] = Math.min(solve(N - 1, R), solve(N - 1, G)) + cost[N][B];
-            }
+    private static int paint(int index, int color) {
+        if (index == 0) {
+            return cost[index][color];
         }
-        return dp[N][color];
+        if (dp[index][color] != 0) {
+            return dp[index][color];
+        }
+        int min = Integer.MAX_VALUE;
+        if (color == R) {
+            min = Math.min(min, paint(index - 1, G) + cost[index][R]);
+            min = Math.min(min, paint(index - 1, B) + cost[index][R]);
+        } else if (color == G) {
+            min = Math.min(min, paint(index - 1, R) + cost[index][G]);
+            min = Math.min(min, paint(index - 1, B) + cost[index][G]);
+        } else {
+            min = Math.min(min, paint(index - 1, R) + cost[index][B]);
+            min = Math.min(min, paint(index - 1, G) + cost[index][B]);
+        }
+        return dp[index][color] = min;
     }
 }
