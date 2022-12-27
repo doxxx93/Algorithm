@@ -4,7 +4,8 @@ import java.util.*;
 public class Main {
 
     static int n, m, k, x;
-    static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+
+    static List<ArrayList<Integer>> graph = new ArrayList<>();
     static int[] distance;
 
     public static void main(String[] args) throws IOException {
@@ -14,39 +15,51 @@ public class Main {
         m = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
         x = Integer.parseInt(st.nextToken());
-        for (int i = 0; i < n + 1; i++) {
-            graph.add(new ArrayList<>());
-        }
+
         distance = new int[n + 1];
         Arrays.fill(distance, -1);
+
+        for (int i = 0; i <= n; i++) {
+            graph.add(new ArrayList<>());
+        }
+
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            graph.get(a).add(b);
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            graph.get(start).add(end);
         }
-        distance[x] = 0;
+
+        bfs(x);
+    }
+
+    private static void bfs(int x) {
         Queue<Integer> q = new LinkedList<>();
         q.offer(x);
+        distance[x] = 0;
+
         while (!q.isEmpty()) {
-            int cur = q.poll();
-            for (int i = 0; i < graph.get(cur).size(); i++) {
-                int next = graph.get(cur).get(i);
+            int now = q.poll();
+            for (int i = 0; i < graph.get(now).size(); i++) {
+                int next = graph.get(now).get(i);
                 if (distance[next] == -1) {
-                    distance[next] = distance[cur] + 1;
+                    distance[next] = distance[now] + 1;
                     q.offer(next);
                 }
             }
         }
-        boolean check = false;
-        for (int i = 1; i < n + 1; i++) {
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= n; i++) {
             if (distance[i] == k) {
-                System.out.println(i);
-                check = true;
+                sb.append(i).append("\n");
             }
         }
-        if (!check) {
-            System.out.println(-1);
+
+        if (sb.length() == 0) {
+            sb.append(-1);
         }
+
+        System.out.println(sb);
     }
 }
