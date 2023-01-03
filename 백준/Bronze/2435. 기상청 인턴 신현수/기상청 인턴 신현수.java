@@ -9,15 +9,14 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int k = Integer.parseInt(st.nextToken());
         int[] arr = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        List<Integer> sumList = new ArrayList<>();
+        int max = Integer.MIN_VALUE;
         for (int i = 0; i < n - k + 1; i++) {
             int sum = 0;
             for (int j = i; j < i + k; j++) {
                 sum += arr[j];
             }
-            sumList.add(sum);
+            max = Math.max(max, sum);
         }
-        Collections.sort(sumList);
-        System.out.println(sumList.get(sumList.size() - 1));
+        System.out.println(max);
     }
 }
