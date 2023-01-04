@@ -1,59 +1,43 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class Main {
-
-    static class Pair<x, y>{
-
-        int x;
-        int y;
-        Pair(int x, int y){
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-
+class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        List<Pair> al = new ArrayList<>();
-        Set<Integer> setX = new HashSet<>();
-        Set<Integer> setY = new HashSet<>();
-
+        int[][] arr = new int[n][2];
+        int[][] distance = new int[n * n][n];
+        int[][] sum = new int[n][n * n];
         StringTokenizer st;
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
-            al.add(new Pair(x, y));
-            setX.add(x);
-            setY.add(y);
+            arr[i][0] = Integer.parseInt(st.nextToken());
+            arr[i][1] = Integer.parseInt(st.nextToken());
         }
-        List<Integer> xList = new ArrayList<>(setX);
-        List<Integer> yList = new ArrayList<>(setY);
-        int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = Integer.MAX_VALUE;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (Integer x : xList) {
-            for (Integer y : yList) {
-                List<Integer> dist = new ArrayList<>();
-                for (Pair p : al) {
-                    dist.add(Math.abs(x - p.x) + Math.abs(y - p.y));
-                }
-                Collections.sort(dist);
-                int sum = 0;
-                for (int i = 0; i < dist.size(); i++) {
-                    sum += dist.get(i);
-                    arr[i] = Math.min(arr[i], sum);
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < n; k++) {
+                    distance[(n * i + j)][k] = Math.abs(arr[i][0] - arr[k][0]) + Math.abs(arr[j][1] - arr[k][1]);
                 }
             }
         }
-        for (int i : arr) {
-            sb.append(i).append(" ");
+        for (int i = 0; i < n * n; i++) {
+            Arrays.sort(distance[i]);
         }
-        System.out.println(sb);
+        for (int i = 0; i < n * n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (j == 0) {
+                    sum[j][i] = distance[i][j];
+                    continue;
+                }
+                sum[j][i] = sum[j - 1][i] + distance[i][j];
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n * n; j++) {
+                sum[i][0] = Math.min(sum[i][0], sum[i][j]);
+            }
+            System.out.print(sum[i][0] + " ");
+        }
     }
 }
