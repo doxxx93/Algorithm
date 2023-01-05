@@ -1,22 +1,23 @@
+import java.util.*;
+
 class Solution {
 
-    boolean solution(String s) {
-        boolean answer = true;
-        int openCount = 0;
-        int closeCount = 0;
+        boolean solution(String s) {
+boolean answer = true;
+        Stack<Character> stack = new Stack<>();
 
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '(') {
-                openCount++;
+                stack.push('(');
             } else if (s.charAt(i) == ')') {
-                closeCount++;
-            }
-            if (openCount < closeCount) {
-                answer = false;
-                break;
+                if (stack.isEmpty()) {
+                    answer = false;
+                    break;
+                }
+                stack.pop();
             }
         }
-        if (openCount != closeCount) {
+        if (!stack.isEmpty()) {
             answer = false;
         }
 
