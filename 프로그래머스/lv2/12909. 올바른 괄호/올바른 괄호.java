@@ -2,25 +2,20 @@ import java.util.*;
 
 class Solution {
 
-        boolean solution(String s) {
-boolean answer = true;
-        Stack<Character> stack = new Stack<>();
-
+    boolean solution(String s) {
+        Stack<Boolean> stack = new Stack<>();
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '(') {
-                stack.push('(');
-            } else if (s.charAt(i) == ')') {
+                stack.push(true);
+                continue;
+            }
+            if (s.charAt(i) == ')') {
                 if (stack.isEmpty()) {
-                    answer = false;
-                    break;
+                    return false;
                 }
                 stack.pop();
             }
         }
-        if (!stack.isEmpty()) {
-            answer = false;
-        }
-
-        return answer;
+        return stack.isEmpty();
     }
 }
