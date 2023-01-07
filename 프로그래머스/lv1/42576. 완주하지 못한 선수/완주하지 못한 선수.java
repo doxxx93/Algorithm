@@ -1,24 +1,18 @@
-import java.util.HashMap;
+import java.util.*;
 
 class Solution {
 
     public String solution(String[] participant, String[] completion) {
-        String answer = "";
-        HashMap<String, Integer> map = new HashMap<>();
-        for (String s : participant) {
-            map.put(s, map.getOrDefault(s, 0) + 1);
-            
+        Map<String, Integer> runners = new TreeMap<>();
+        for (String runner : participant) {
+            runners.put(runner, runners.getOrDefault(runner, 0) + 1);
         }
-        for (String s : completion) {
-            map.put(s, map.get(s) - 1);
-            if (map.get(s) == 0) {
-                map.remove(s);
+        for (String runner : completion) {
+            runners.put(runner, runners.get(runner) - 1);
+            if (runners.get(runner) == 0) {
+                runners.remove(runner);
             }
         }
-        for (String s : map.keySet()) {
-            answer = s;
-        }
-        
-        return answer;
+        return runners.keySet().iterator().next();
     }
 }
