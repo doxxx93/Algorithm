@@ -1,22 +1,16 @@
-import java.util.HashMap;
-import java.util.Map;
+import static java.util.stream.Collectors.*;
+
+import java.util.*;
 
 class Solution {
 
     public int solution(String[][] clothes) {
-        Map<String, Integer> counts = new HashMap<>();
-
-        for (String[] clothe : clothes) {
-            String type = clothe[1];
-            counts.put(type, counts.getOrDefault(type, 0) + 1);
-        }
-
-        int answer = 1;
-        for (Integer count : counts.values()) {
-            answer *= count + 1;
-        }
-        answer -= 1;
-
-        return answer;
+        return Arrays.stream(clothes)
+                         .collect(groupingBy(clothe -> clothe[1],
+                             mapping(clothe -> clothe[0], counting())))
+                         .values()
+                         .stream()
+                         .reduce(1L, (a, b) -> a * (b + 1))
+                         .intValue() - 1;
     }
 }
