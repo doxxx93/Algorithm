@@ -9,13 +9,20 @@ class Solution {
         for (int i = 0; i < genres.length; i++) {
             String genre = genres[i];
             int play = plays[i];
-            genrePlays.put(genre, genrePlays.getOrDefault(genre, 0) + play);
+            genrePlays.merge(genre, play, Integer::sum);
             genreSongs.computeIfAbsent(genre, k -> new ArrayList<>()).add(i);
         }
 
         List<String> genreList = new ArrayList<>(genrePlays.keySet());
 
+        // 장르 리스트를 정렬하는 2가지 방법이 있다.
+        // 속도 차이는 별로 없다.
+        // 1-1. sort 메서드 내부 Comparator 구현 (람다식)
         genreList.sort((o1, o2) -> genrePlays.get(o2) - genrePlays.get(o1));
+        // 1-2. sort 메서드 내부 Comparator 구현 (comparingInt)
+        // genreList.sort(Comparator.comparingInt(genrePlays::get).reversed());
+        // 2. Collections.sort 메서드 사용
+        // Collections.sort(genreList, (o1, o2) -> genrePlays.get(o2) - genrePlays.get(o1));
 
         List<Integer> answer = new ArrayList<>();
 
@@ -27,10 +34,7 @@ class Solution {
                 }
                 return plays[o2] - plays[o1];
             });
-            answer.add(songs.get(0));
-            if (songs.size() > 1) {
-                answer.add(songs.get(1));
-            }
+            songs.stream().limit(2).forEach(answer::add);
         }
 
         return answer.stream().mapToInt(i -> i).toArray();
