@@ -1,21 +1,27 @@
 import java.io.*;
 import java.util.*;
 
-class Main {
+public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        // -1000 ≤ A, B ≤ 1000
         StringTokenizer st = new StringTokenizer(br.readLine());
         int a = Integer.parseInt(st.nextToken());
         int b = Integer.parseInt(st.nextToken());
-
-        if (b == a * a) {
-            System.out.println(-a);
-        } else {
-            int sqrt = (int)Math.sqrt(a * a - b);
-            int x1 = -1 * sqrt - a;
-            int x2 = sqrt - a;
-            System.out.println(Math.min(x1, x2) + " " + Math.max(x1, x2));
+        Set<Integer> x = new TreeSet<>();
+        // x 는 항상 정수이다.
+        // x * x + 2 * a * x + b = 0
+        // (x - p)(x-q) = 0
+        // p * q= b, -(p+q) = + 2 * a
+        for (int i = -(int) Math.sqrt(1000); i * i <= 1000; i++) {
+            if (i * i + 2 * a * i + b == 0) {
+                x.add(i);
+            }
         }
+        for (Integer answer : x) {
+            System.out.print(answer+ " ");
+        }
+        System.out.println();
     }
 }
