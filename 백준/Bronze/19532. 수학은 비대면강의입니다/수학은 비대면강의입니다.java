@@ -1,22 +1,18 @@
 import java.io.*;
 import java.util.*;
 
-class Main {
+public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int a = Integer.parseInt(st.nextToken());
-        int b = Integer.parseInt(st.nextToken());
-        int c = Integer.parseInt(st.nextToken());
-        int d = Integer.parseInt(st.nextToken());
-        int e = Integer.parseInt(st.nextToken());
-        int f = Integer.parseInt(st.nextToken());
-
+        int[] arr = Arrays.stream(br.readLine().split(" "))
+            .mapToInt(Integer::parseInt)
+            .toArray();
         for (int x = -999; x <= 999; x++) {
             for (int y = -999; y <= 999; y++) {
-                if (a * x + b * y == c && d * x + e * y == f) {
-                    System.out.println(x + " "+ y);
+                if (arr[0] * x + arr[1] * y == arr[2] && arr[3] * x + arr[4] * y == arr[5]) {
+                    System.out.println(x + " " + y);
+                    return;
                 }
             }
         }
