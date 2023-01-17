@@ -1,28 +1,29 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-        long A = Long.parseLong(st.nextToken());
-        long B = Long.parseLong(st.nextToken());
-        long answer = function(B) - function(A - 1);
-        System.out.println(answer);
-
-    }
-
-    private static long function(long n) {
-        long r = n;
-        for (long i = 2; i <= n; i *= 2) {
-            r += (n / i) * (i / 2);
+        long a = Long.parseLong(st.nextToken());
+        long b = Long.parseLong(st.nextToken());
+        long res = 0;
+        for (long i = 0; b > 0; i++) {
+            res += oddNumber(a, b) * (1L << i);
+            a = (a + 1) / 2;
+            b = b / 2;
         }
-        return r;
+        System.out.println(res);
     }
 
+    private static long oddNumber(long a, long b) {
+        if (a % 2 == 0 && b % 2 == 0) {
+            return (b - a) / 2;
+        }
+        if (a % 2 == 1 && b % 2 == 0 || a % 2 == 0 && b % 2 == 1) {
+            return (b - a + 1) / 2;
+        }
+        return (b - a) / 2 + 1;
+    }
 }
