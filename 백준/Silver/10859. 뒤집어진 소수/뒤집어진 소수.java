@@ -1,57 +1,27 @@
-import java.io.*;
-import java.util.*;
-
+import java.io. *;
+import java.math.*;
+import java.util. *;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        long n = Long.parseLong(br.readLine());
-        if (n == 1) {
-            System.out.println("no");
-            return;
-        }
-        if (n == 2) {
-            System.out.println("yes");
-            return;
-        }
-        long tmp = n;
-        List<Integer> list = new ArrayList<>();
-        while (tmp > 0) {
-            int x = (int) (tmp % 10);
-            if (x == 3 || x == 4 || x == 7) {
-                System.out.println("no");
-                return;
-            }
-            list.add(x);
-            tmp /= 10;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            Integer x = list.get(i);
-            if (x == 1) {
-                sb.append(1);
-            } else if (x == 2 || x == 5 || x == 8 || x == 0) {
-                sb.append(x);
-            } else if (x == 6) {
-                sb.append(9);
-            } else if (x == 9) {
-                sb.append(6);
-            }
-        }
-        if (isPrime(Long.parseLong(sb.toString()))&&isPrime(n)) {
-            System.out.println("yes");
-        } else {
-            System.out.println("no");
-        }
-    }
-
-    private static boolean isPrime(long candidate) {
-        for (long i = 2; i * i <= candidate; i++) {
-            if (candidate % i == 0) {
-                return false;
-            }
-        }
-        return true;
+    public static void main(String[] args){
+        Scanner scan = new Scanner(System.in);
+        String input = scan.next();
+        BigInteger a = new BigInteger(input);
+        boolean success = true;
+        if(!a.isProbablePrime(20)) success = false;
+        String[] forbidden = {"3", "4", "7"};
+        for(String s: forbidden)
+            if(input.contains(s)) success = false;
+        char maps_to[] = {'0', '1', '2', '3', '4', '5', '9', '7', '8', '6'};
+        char input_c[] = input.toCharArray();
+        char reverse[] = new char[input_c.length];
+        for(int i = 0; i < input_c.length; i++)
+            reverse[i] = maps_to[ input_c[ input_c.length - i - 1 ] - '0' ];
+        String reverse_string = new String(reverse);
+        a = new BigInteger(reverse_string);
+        if(!a.isProbablePrime(20)) success = false;
+        if(success) System.out.println("yes");
+        else System.out.println("no");
     }
 }
