@@ -3,32 +3,39 @@ import java.util.*;
 
 public class Main {
 
+    static long a, d, t, l, r;
+    static StringBuilder sb;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        long a = Long.parseLong(st.nextToken());
-        long d = Long.parseLong(st.nextToken());
-        long q = Long.parseLong(br.readLine());
-        StringBuilder sb = new StringBuilder();
-        while (q-- > 0) {
+        a = Long.parseLong(st.nextToken());
+        d = Long.parseLong(st.nextToken());
+        sb = new StringBuilder();
+        int q = Integer.parseInt(br.readLine());
+        for (int i = 0; i < q; i++) {
             st = new StringTokenizer(br.readLine());
-            int i = Integer.parseInt(st.nextToken());
-            int l = Integer.parseInt(st.nextToken());
-            int r = Integer.parseInt(st.nextToken());
+            t = Long.parseLong(st.nextToken());
+            l = Long.parseLong(st.nextToken());
+            r = Long.parseLong(st.nextToken());
 
-            if (i == 1) {
-                long sumR = r * (2 * a + (r - 1) * d) / 2;
-                long sumL = (l - 1) * (2 * a + (l - 2) * d) / 2;
-                sb.append(sumR - sumL).append("\n");
-            } else if (i == 2) {
+            if (t == 1) {
+                sb.append(sum()).append("\n");
+                continue;
+            }
+            if (t == 2) {
                 if (r == l) {
-                    sb.append(a + d * (l - 1)).append("\n");
-                } else {
-                    sb.append(gcd(a, d)).append("\n");
+                    sb.append(a+d*(r-1)).append("\n");
+                    continue;
                 }
+                sb.append(gcd(a, d)).append("\n");
             }
         }
-        System.out.println(sb.toString().trim());
+        System.out.println(sb);
+    }
+
+    private static long sum() {
+        return r * (2 * a + (r - 1) * d) / 2 - (l - 1) * (2 * a + (l - 2) * d) / 2;
     }
 
     private static long gcd(long a, long b) {
@@ -37,5 +44,4 @@ public class Main {
         }
         return gcd(b, a % b);
     }
-
 }
