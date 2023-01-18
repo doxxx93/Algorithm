@@ -4,9 +4,10 @@ class Solution {
 
     public static void main(String args[]) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int T = Integer.parseInt(br.readLine());
+//        int T = Integer.parseInt(br.readLine());
+        Long T = Long.parseLong(br.readLine());
         StringBuilder sb = new StringBuilder();
-        for (int test_case = 1; test_case <= T; test_case++) {
+        for (long test_case = 1; test_case <= T; test_case++) {
             long n = Long.parseLong(br.readLine());
             long con = n;
             int check = 0;
