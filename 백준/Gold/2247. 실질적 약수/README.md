@@ -8,7 +8,7 @@
 
 ### 분류
 
-사칙연산(arithmetic), 수학(math), 정수론(number_theory)
+수학(math), 정수론(number_theory)
 
 ### 문제 설명
 
