@@ -1,22 +1,22 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
-
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         int n = Integer.parseInt(st.nextToken());
         int a = Integer.parseInt(st.nextToken());
 
+        // x 는 1부터 n까지 a의 배수의 개수를 의미한다.
         int x = n / a;
-        int answer = x;
+        int ans = x;
         while (x >= a) {
-            x = x / a;
-            answer += x;
+            x /= a;
+            ans += x;
         }
-        System.out.println(answer);
+        System.out.println(ans);
     }
 }

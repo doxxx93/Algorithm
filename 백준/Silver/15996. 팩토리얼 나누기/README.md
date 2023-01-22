@@ -1,10 +1,10 @@
-# [Silver IV] 팩토리얼 나누기 - 15996 
+# [Silver III] 팩토리얼 나누기 - 15996 
 
 [문제 링크](https://www.acmicpc.net/problem/15996) 
 
 ### 성능 요약
 
-메모리: 14192 KB, 시간: 124 ms
+메모리: 14076 KB, 시간: 120 ms
 
 ### 분류
 
