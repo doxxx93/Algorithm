@@ -9,8 +9,7 @@ public class Main {
         long answer = 0;
         for (long i = 2; i * i <= n; i++) {
             long j = n / i;
-            answer += (i + j) * (j - i + 1) / 2;
-            answer += i * (j - i);
+            answer += (i + j) * (j - i + 1) / 2 + i * (j - i);
         }
         System.out.println(answer % 1000000);
     }
