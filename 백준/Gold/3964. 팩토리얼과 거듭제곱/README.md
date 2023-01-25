@@ -1,4 +1,4 @@
-# [Gold III] 팩토리얼과 거듭제곱 - 3964 
+# [Gold II] 팩토리얼과 거듭제곱 - 3964 
 
 [문제 링크](https://www.acmicpc.net/problem/3964) 
 
