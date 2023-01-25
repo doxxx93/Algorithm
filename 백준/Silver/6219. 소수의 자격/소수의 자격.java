@@ -1,9 +1,9 @@
 import java.io.*;
 import java.util.*;
 
-
 public class Main {
 
+    static boolean[] primes;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -11,34 +11,35 @@ public class Main {
         int a = Integer.parseInt(st.nextToken());
         int b = Integer.parseInt(st.nextToken());
         int d = Integer.parseInt(st.nextToken());
-
-        int answer = 0;
-        for (int i = a; i <= b; i++) {
-            if (isPrime(i)) {
-                int temp = i;
-
-                while (temp != 0) {
-                    if (temp % 10 == d) {
-                        answer++;
-                        break;
-                    }
-                    temp /= 10;
+        primes = new boolean[b + 1];
+        Arrays.fill(primes, true);
+        primes[0] = false;
+        primes[1] = false;
+        for (int i = 2; i <= b; i++) {
+            if (primes[i]) {
+                for (int j = i * 2; j <= b; j += i) {
+                    primes[j] = false;
                 }
             }
         }
-        System.out.println(answer);
-    }
-
-    public static boolean isPrime(int n) {
-        if (n == 1) {
-            return false;
-        }
-
-        for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0) {
-                return false;
+        int count = 0;
+        for (int i = a; i <= b; i++) {
+            if (primes[i]) {
+                if (contains(i, d)) {
+                    count++;
+                }
             }
         }
-        return true;
+        System.out.println(count);
+    }
+
+    private static boolean contains(int i, int d) {
+        while (i > 0) {
+            if (i % 10 == d) {
+                return true;
+            }
+            i /= 10;
+        }
+        return false;
     }
 }
