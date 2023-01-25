@@ -1,4 +1,4 @@
-# [Gold IV] Sleeping in Class - 24620 
+# [Gold III] Sleeping in Class - 24620 
 
 [문제 링크](https://www.acmicpc.net/problem/24620) 
 
