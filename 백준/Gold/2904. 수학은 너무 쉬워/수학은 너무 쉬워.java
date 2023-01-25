@@ -1,57 +1,74 @@
 import java.io.*;
 import java.util.*;
 
-public final class Main {
+class Main {
+
+    static int MAX = 1000000;
+    static int[] primes = new int[MAX + 5];
+    static int n;
+    static int[] arr = new int[105];
+    static int[] A = new int[MAX];
+    static int count = 0;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int[] primes = new int[1000001];
-        int n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
+        n = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
-            fac(arr[i], primes);
+            addFactors(arr[i]);
         }
-        List<Integer> pN = new ArrayList<>();
-        List<Integer> pV = new ArrayList<>();
-        long gcd = 1;
-        for (int i = 2; i < 1000001; i++) {
-            if (primes[i] >= n) {
-                pN.add(i);
-                for (int j = 0; j < primes[i] / n; j++) {
-                    gcd *= i;
-                }
-                pV.add(primes[i] / n);
-            }
+        int result = solve();
+        int prom = 0;
+        for (int i = 0; i < n; i++) {
+            prom += calPrimes(arr[i]);
         }
-        int count = 0;
-        for (int i = 0; i < pN.size(); i++) {
-            int p = pN.get(i);
-            int v = pV.get(i);
-            for (int j = 0; j < n; j++) {
-                int countI = 0;
-                while (arr[j] % p == 0) {
-                    arr[j] /= p;
-                    countI++;
-                }
-                if (countI >= v) {
-                    continue;
-                }
-                count += v - countI;
-            }
-        }
-        System.out.println(gcd + " " + count);
+        System.out.println(result + " " + prom);
     }
-    private static void fac(int i, int[] arr) {
-        for (int j = 2; j * j <= i; j++) {
-            while (i % j == 0) {
-                arr[j]++;
-                i /= j;
+
+    private static int calPrimes(int i) {
+        int prime = 0;
+        for (int j = 0; j < count; j++) {
+            int br = A[j];
+            int tr = primes[br];
+            while (i % br == 0) {
+                tr--;
+                i /= br;
+            }
+            if (tr > 0) {
+                prime += tr;
             }
         }
-        if (i != 1) {
-            arr[i]++;
+        return prime;
+    }
+
+    private static int solve() {
+        int result = 1;
+        count = 0;
+        for (int i = 2; i <= MAX; i++) {
+            primes[i] /= n;
+            for (int j = 0; j < primes[i]; j++) {
+                result *= i;
+            }
+            if (primes[i] > 0) {
+                A[count++] = i;
+            }
+        }
+        return result;
+    }
+
+    private static void addFactors(int x) {
+        int factor = 2;
+        int temp = x;
+        while (factor * factor <= temp) {
+            while (x % factor == 0) {
+                primes[factor]++;
+                x /= factor;
+            }
+            factor++;
+        }
+        if (x > 1) {
+            primes[x]++;
         }
     }
 }
