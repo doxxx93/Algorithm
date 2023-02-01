@@ -1,6 +1,5 @@
-import java.io.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.io. *;
+import java.util. *;
 
 public class Main {
 
@@ -9,27 +8,21 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-
-        long[][] prefix = new long[n + 1][m + 1];
-
-        for (int row = 1; row < n + 1; row++) {
+        int[][] prefix = new int[n + 1][m + 1];
+        for (int i = 1; i <= n; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int col = 1; col < m + 1; col++) {
-                prefix[row][col] =
-                    prefix[row][col - 1] + prefix[row - 1][col] - prefix[row - 1][col - 1]
-                        + Long.parseLong(st.nextToken());
+            for (int j = 1; j <= m; j++) {
+                int num = Integer.parseInt(st.nextToken());
+                prefix[i][j] = prefix[i - 1][j] + prefix[i][j - 1] - prefix[i - 1][j - 1] + num;
             }
         }
-
-        long max = Integer.MIN_VALUE;
-        for (int row1 = 1; row1 < n + 1; row1++) {
-            for (int col1 = 1; col1 < m + 1; col1++) {
-                for (int row2 = row1; row2 < n + 1; row2++) {
-                    for (int col2 = col1; col2 < m + 1; col2++) {
-                        long result =
-                            prefix[row2][col2] - prefix[row1 - 1][col2] - prefix[row2][col1 - 1]
-                                + prefix[row1 - 1][col1 - 1];
-                        max = Math.max(max, result);
+        int max = Integer.MIN_VALUE;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                for (int k = i; k <= n; k++) {
+                    for (int l = j; l <= m; l++) {
+                        int sum = prefix[k][l] - prefix[i - 1][l] - prefix[k][j - 1] + prefix[i - 1][j - 1];
+                        max = Math.max(max, sum);
                     }
                 }
             }
