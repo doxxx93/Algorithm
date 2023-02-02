@@ -6,8 +6,6 @@ import java.util.*;
  * 구간합 i ~ j가 0이 되는 것을 식으로 표현하면, prefixSum[j] - prefixSum[i-1] = 0 과 같다.
  * prefixSum[j] = prefixSum[i-1] 이므로, prefixSum[i-1]이 이미 나왔던 값이라면, i ~ j 구간은 SKK 문자열이다.
  */
-
-
 public class Main {
 
     public static void main(String[] args) throws IOException {
@@ -33,15 +31,17 @@ public class Main {
             }
         }
         int answer = -1;
+
         for (int i = 0; i <= length; i++) {
             index[prefixSum[i] + length] = Math.min(index[prefixSum[i] + length], i);
         }
+
         for (int i = 1; i <= length; i++) {
             int left = index[prefixSum[i] + length];
             int skkLength = i - left;
-            int k = kCount[i] - kCount[left];
-            int s = sCount[i] - sCount[left];
-            if (k!=0 && k != s) {
+//            int k = kCount[i] - kCount[left];
+//            int s = sCount[i] - sCount[left];
+            if (kCount[i] != kCount[left]) {
                 answer = Math.max(answer, skkLength);
             }
         }
