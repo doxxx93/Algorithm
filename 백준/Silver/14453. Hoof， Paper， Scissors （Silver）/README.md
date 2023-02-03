@@ -1,4 +1,4 @@
-# [Silver I] Hoof, Paper, Scissors (Silver) - 14453 
+# [Silver II] Hoof, Paper, Scissors (Silver) - 14453 
 
 [문제 링크](https://www.acmicpc.net/problem/14453) 
 
