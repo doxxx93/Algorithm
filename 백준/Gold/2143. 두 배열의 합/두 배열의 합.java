@@ -1,90 +1,46 @@
 import java.io.*;
 import java.util.*;
 
-class Main {
-
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static StringTokenizer st;
-    static int t;
-    static int n;
-    static int[] a;
-    static List<Integer> listA = new ArrayList<>();
-    static List<Integer> listB = new ArrayList<>();
-    static int m;
-    static int[] b;
-
+public class Main {
 
     public static void main(String[] args) throws IOException {
-        input();
-        for (int i = 0; i < n; i++) {
-            int sum = 0;
-            for (int j = i; j < n; j++) {
-                sum += a[j];
-                listA.add(sum);
-            }
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        long t = Long.parseLong(br.readLine());
+        int n = Integer.parseInt(br.readLine());
+        long[] prefixA = new long[n + 1];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 1; i <= n; i++) {
+            prefixA[i] = prefixA[i - 1] + Long.parseLong(st.nextToken());
         }
-        for (int i = 0; i < m; i++) {
-            int sum = 0;
-            for (int j = i; j < m; j++) {
-                sum += b[j];
-                listB.add(sum);
-            }
-        }
-        Collections.sort(listA);
-        Collections.sort(listB);
-
-        System.out.println(getCount());
-
-    }
-
-    private static long getCount() {
-        int pa = 0;
-        int pb = listB.size() - 1;
-        long cnt = 0;
-
-        while (pa < listA.size() && pb >= 0) {
-            long sum = listA.get(pa) + listB.get(pb);
-
-            if (sum == t) {
-                int a = listA.get(pa);
-                int b = listB.get(pb);
-                long acount = 0;
-                long bcount = 0;
-
-                while (pa < listA.size() && listA.get(pa) == a) {
-                    acount++;
-                    pa++;
-                }
-                while (pb >= 0 && listB.get(pb) == b) {
-                    bcount++;
-                    pb--;
-                }
-
-                cnt += acount * bcount;
-            } else if (sum < t) {
-                pa++;
-            } else {
-                pb--;
-            }
-        }
-        return cnt;
-    }
-
-    private static void input() throws IOException {
-        t = Integer.parseInt(br.readLine());
-        n = Integer.parseInt(br.readLine());
-        a = new int[n];
+        int m = Integer.parseInt(br.readLine());
+        long[] prefixB = new long[m + 1];
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            a[i] = Integer.parseInt(st.nextToken());
+        for (int i = 1; i <= m; i++) {
+            prefixB[i] = prefixB[i - 1] + Long.parseLong(st.nextToken());
+        }
 
+        Map<Long, Long> subtotalA = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j <= n; j++) {
+                subtotalA.computeIfPresent(prefixA[j] - prefixA[i], (k, v) -> v + 1);
+                subtotalA.putIfAbsent(prefixA[j] - prefixA[i], 1L);
+            }
         }
-        m = Integer.parseInt(br.readLine());
-        b = new int[m];
-        st = new StringTokenizer(br.readLine());
+
+        Map<Long, Long> subtotalB = new HashMap<>();
         for (int i = 0; i < m; i++) {
-            b[i] = Integer.parseInt(st.nextToken());
+            for (int j = i + 1; j <= m; j++) {
+                subtotalB.computeIfPresent(prefixB[j] - prefixB[i], (k, v) -> v + 1);
+                subtotalB.putIfAbsent(prefixB[j] - prefixB[i], 1L);
+            }
         }
+
+        long count = 0;
+        for (Long key : subtotalA.keySet()) {
+            if (subtotalB.containsKey(t - key)) {
+                count += subtotalA.get(key) * subtotalB.get(t - key);
+            }
+        }
+        System.out.println(count);
     }
 }
-
