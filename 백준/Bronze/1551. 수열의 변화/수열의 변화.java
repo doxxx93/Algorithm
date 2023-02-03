@@ -11,8 +11,7 @@ public class Main {
         int[] arr = Arrays.stream(br.readLine().split(",")).mapToInt(Integer::parseInt)
             .toArray();
         System.out.println(
-            Arrays.toString(dfs(arr, k, 0)).replace(",", ",").replace("[", "").replace("]", "")
-                .replace(" ", ""));
+            Arrays.toString(dfs(arr, k, 0)).replace("[", "").replace("]", "").replace(" ", ""));
     }
 
     private static int[] dfs(int[] arr, int k, int depth) {
