@@ -21,12 +21,10 @@ public class Main {
         Map<Long, Long> map = new HashMap<>();
         for (int i = 0; i <= n; i++) {
             long diff = prefixA[i] - prefixB[i];
-            if (map.containsKey(diff)) {
-                count += map.get(diff);
-            }
-            map.put(diff, map.getOrDefault(diff, 0L) + 1);
+            count += map.getOrDefault(diff, 0L);
+            map.merge(diff, 1L, Long::sum);
         }
-        
+
         System.out.println(count);
 
     }
