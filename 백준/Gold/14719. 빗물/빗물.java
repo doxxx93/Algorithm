@@ -1,33 +1,33 @@
-import java.io.*;
-import java.util.*;
+import java.io. *;
+import java.util. *;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int h = Integer.parseInt(st.nextToken());
         int w = Integer.parseInt(st.nextToken());
-        int[] height = new int[w];
+
+        int[] heights = new int[w];
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < w; i++) {
-            height[i] = Integer.parseInt(st.nextToken());
+            heights[i] = Integer.parseInt(st.nextToken());
         }
-        int answer = 0;
-        for (int current = 1; current < w - 1; current++) {
-            int currentHeight = height[current];
-            int lMax = currentHeight;
-            int rMax = currentHeight;
-            for (int j = current - 1; j >= 0; j--) {
-                lMax = Math.max(lMax, height[j]);
-            }
-            for (int j = current + 1; j < w; j++) {
-                rMax = Math.max(rMax, height[j]);
-            }
-            if (Math.min(lMax, rMax) > currentHeight) {
-                answer += Math.min(lMax, rMax) - currentHeight;
-            }
+
+        int[] prefix = new int[w];
+        int[] suffix = new int[w];
+        prefix[0] = heights[0];
+        suffix[w - 1] = heights[w - 1];
+        for (int i = 1; i < w; i++) {
+            prefix[i] = Math.max(prefix[i - 1], heights[i]);
+            suffix[w - i - 1] = Math.max(suffix[w - i], heights[w - i - 1]);
         }
-        System.out.println(answer);
+
+        int total = 0;
+        for (int i = 0; i < w; i++) {
+            total += Math.min(prefix[i], suffix[i]) - heights[i];
+        }
+        System.out.println(total);
     }
 }
