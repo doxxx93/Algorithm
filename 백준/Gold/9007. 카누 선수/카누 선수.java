@@ -3,63 +3,49 @@ import java.util.*;
 
 public class Main {
 
-    static StringBuilder sb = new StringBuilder();
-    static int n, k;
-    static int[][] merge;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int t = Integer.parseInt(br.readLine());
-
+        StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
         while (t-- > 0) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            k = Integer.parseInt(st.nextToken());
-            n = Integer.parseInt(st.nextToken());
-
+            st = new StringTokenizer(br.readLine());
+            int k = Integer.parseInt(st.nextToken());
+            int n = Integer.parseInt(st.nextToken());
             int[][] arr = new int[4][n];
             for (int i = 0; i < 4; i++) {
-                st = new StringTokenizer(br.readLine());
-                for (int j = 0; j < n; j++) {
-                    arr[i][j] = Integer.parseInt(st.nextToken());
-                }
+                arr[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt)
+                    .toArray();
             }
-
-            int[] sum1 = new int[n * n];
-            int[] sum2 = new int[n * n];
-
-            int cnt = 0;
-
+            int[][] sum = new int[2][n * n];
+            int idx = 0;
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    sum1[cnt] = arr[0][i] + arr[1][j];
-                    sum2[cnt++] = arr[2][i] + arr[3][j];
+                    sum[0][idx] = arr[0][i] + arr[1][j];
+                    sum[1][idx++] = arr[2][i] + arr[3][j];
                 }
             }
-
-            Arrays.sort(sum1);
-            Arrays.sort(sum2);
-
+            Arrays.sort(sum[0]);
+            Arrays.sort(sum[1]);
             int s = 0;
-            int e = sum2.length - 1;
-            int ans = sum1[s] + sum2[e];
-
-            while ((s < sum1.length) && (e >= 0)) {
-                if (Math.abs(ans - k) == Math.abs(sum1[s] + sum2[e] - k)) {
-                    ans = Math.min(ans, sum1[s] + sum2[e]);
-                } else if (Math.abs(ans - k) > Math.abs(sum1[s] + sum2[e] - k)) {
-                    ans = sum1[s] + sum2[e];
+            int e = sum[1].length - 1;
+            int ans = sum[0][s] + sum[1][e];
+            while (s < sum[0].length && e >= 0) {
+                int cur = sum[0][s] + sum[1][e];
+                int diff = cur - k;
+                if (Math.abs(diff) == Math.abs(ans - k)) {
+                    ans = Math.min(ans, cur);
+                } else if (Math.abs(diff) < Math.abs(ans - k)) {
+                    ans = cur;
                 }
-
-                if (sum1[s] + sum2[e] >= k) {
-                    e -= 1;
+                if (cur >= k) {
+                    e--;
                 } else {
-                    s += 1;
+                    s++;
                 }
             }
-
-            sb.append(ans + "\n");
+            sb.append(ans).append("\n");
         }
-
         System.out.println(sb);
     }
 }
