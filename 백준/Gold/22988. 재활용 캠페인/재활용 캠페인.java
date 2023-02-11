@@ -7,32 +7,30 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
-        Long x = Long.parseLong(st.nextToken());
-
+        long x = Long.parseLong(st.nextToken());
         List<Long> al = new ArrayList<>();
-        int count = 0;
-
         st = new StringTokenizer(br.readLine());
-        while (st.hasMoreTokens()) {
-            long i = Long.parseLong(st.nextToken());
-            if (i >= x) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            long a = Long.parseLong(st.nextToken());
+            if (a >= x) {
                 count++;
                 continue;
             }
-            al.add(i);
+            al.add(a);
         }
-
         Collections.sort(al);
 
         int s = 0;
         int e = al.size() - 1;
         int count2 = 0;
         while (s < e) {
-            if (2 * (al.get(s) + al.get(e)) >= x) {
+            long sum = al.get(s) + al.get(e);
+            if (2 * sum >= x) {
                 count2++;
-                e--;
                 s++;
-            } else if (2 * (al.get(s) + al.get(e)) < x) {
+                e--;
+            } else {
                 s++;
             }
         }
