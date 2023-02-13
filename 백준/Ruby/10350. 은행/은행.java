@@ -3,21 +3,14 @@ import java.util.*;
 
 public class Main {
 
-    static int n;
-    static int[] arr;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-
-        n = Integer.parseInt(br.readLine());
-        arr = new int[n * 2 + 1];
+        int n = Integer.parseInt(br.readLine());
+        int[] arr = new int[n * 2 + 1];
         long sum = 0;
-        st = new StringTokenizer(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 1; i <= n; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-            sum += arr[i];
-            arr[i + n] = arr[i];
+            sum += arr[i] = arr[i + n] = Integer.parseInt(st.nextToken());
         }
 
         long count = 0;
@@ -26,8 +19,7 @@ public class Main {
             for (int j = i; j < i + n; j++) {
                 value += arr[j];
                 if (value < 0) {
-                    long x = -value;
-                    count += (x - 1) / sum + 1;
+                    count += (-value - 1) / sum + 1;
                 }
             }
         }
