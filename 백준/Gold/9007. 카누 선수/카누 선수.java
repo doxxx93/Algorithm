@@ -3,35 +3,35 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int t = Integer.parseInt(br.readLine());
-        StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
+    static final FastScanner fs = new FastScanner();
+    static final PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+
+    public static void main(String[] args) {
+        int t = fs.nextInt();
         while (t-- > 0) {
-            st = new StringTokenizer(br.readLine());
-            int k = Integer.parseInt(st.nextToken());
-            int n = Integer.parseInt(st.nextToken());
-            int[][] arr = new int[4][n];
-            for (int i = 0; i < 4; i++) {
-                arr[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt)
-                    .toArray();
-            }
-            int[][] sum = new int[2][n * n];
-            int idx = 0;
+            int k = fs.nextInt();
+            int n = fs.nextInt();
+            int[] arr1 = fs.readArray(n);
+            int[] arr2 = fs.readArray(n);
+            int[] arr3 = fs.readArray(n);
+            int[] arr4 = fs.readArray(n);
+            int[] sum1 = new int[n * n];
+            int[] sum2 = new int[n * n];
+            int index = 0;
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    sum[0][idx] = arr[0][i] + arr[1][j];
-                    sum[1][idx++] = arr[2][i] + arr[3][j];
+                    sum1[index] = arr1[i] + arr2[j];
+                    sum2[index] = arr3[i] + arr4[j];
+                    index++;
                 }
             }
-            Arrays.sort(sum[0]);
-            Arrays.sort(sum[1]);
+            Arrays.sort(sum1);
+            Arrays.sort(sum2);
+            int ans = Integer.MAX_VALUE;
             int s = 0;
-            int e = sum[1].length - 1;
-            int ans = sum[0][s] + sum[1][e];
-            while (s < sum[0].length && e >= 0) {
-                int cur = sum[0][s] + sum[1][e];
+            int e = sum2.length - 1;
+            while ( s < sum1.length && e >= 0) {
+                int cur = sum1[s] + sum2[e];
                 int diff = cur - k;
                 if (Math.abs(diff) == Math.abs(ans - k)) {
                     ans = Math.min(ans, cur);
@@ -44,8 +44,44 @@ public class Main {
                     s++;
                 }
             }
-            sb.append(ans).append("\n");
+            out.println(ans);
         }
-        System.out.println(sb);
+        out.close();
+    }
+
+    static class FastScanner {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer("");
+
+        public String next() {
+            while (!st.hasMoreTokens()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            while (!st.hasMoreTokens()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return Integer.parseInt(st.nextToken());
+        }
+
+        public int[] readArray(int n) {
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = nextInt();
+            }
+            return arr;
+        }
     }
 }
