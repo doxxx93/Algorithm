@@ -1,30 +1,29 @@
-import java.io.*;
-import java.util.*;
+import java.io. *;
+import java.util. *;
+import java.util.stream.*;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        List<Integer> al = new ArrayList<>();
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            al.add(Integer.parseInt(st.nextToken()));
-        }
-
-        Collections.sort(al, Comparator.comparingInt(Math::abs));
+        List<Integer> al = Arrays.stream(br.readLine().split(" "))
+            .map(Integer::parseInt).sorted(Comparator.comparingInt(Math::abs))
+            .collect(Collectors.toList());
 
         int min = Integer.MAX_VALUE;
         int index = 0;
-        for (int i = 0; i < al.size() - 1; i++) {
-            int diff = al.get(i) + al.get(i + 1);
-            min = Math.abs(diff) > Math.abs(min) ? min : diff;
-            index = Math.abs(diff) > Math.abs(min) ? index : i;
+        for (int i = 0; i < n - 1; i++) {
+            int a = al.get(i);
+            int b = al.get(i + 1);
+            int sum = a + b;
+            if (Math.abs(sum) < Math.abs(min)) {
+                min = sum;
+                index = i;
+            }
         }
-        if (al.get(index) < al.get(index + 1)) {
-            System.out.println(al.get(index) + " " + al.get(index + 1));
-        } else {
-            System.out.println(al.get(index + 1) + " " + al.get(index));
-        }
+        System.out.println(
+            Math.min(al.get(index), al.get(index + 1)) + " " + Math.max(al.get(index),
+                al.get(index + 1)));
     }
 }
