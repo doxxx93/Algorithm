@@ -1,0 +1,1 @@
+import java.util.*;interface Main{static void main(String[]z){var s=new Scanner(System.in).next();System.out.print(Math.min(new StringTokenizer(s,"0").countTokens(),new StringTokenizer(s,"1").countTokens()));}}
