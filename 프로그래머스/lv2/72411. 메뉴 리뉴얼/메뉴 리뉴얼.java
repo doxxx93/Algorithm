@@ -2,16 +2,18 @@ import java.util.*;
 
 class Solution {
 
-    public String[] solution(String[] orders, int[] course) {
+    static Map<String, Integer> combinationMap;
 
-        Map<String, Integer> combiMap = new TreeMap<>();
+    public String[] solution(String[] orders, int[] course) {
+        combinationMap = new TreeMap<>();
 
         for (String s : orders) {
             char[] order = s.toCharArray();
             Arrays.sort(order);
-            for (int k : course) {
-                int[] combi = new int[k];
-                combination(order, combi, 0, order.length, k, 0, combiMap);
+            for (int r : course) {
+                int[] combination = new int[r];
+                int n = order.length;
+                combination(order, combination, 0, n, r, 0);
             }
         }
 
@@ -19,38 +21,37 @@ class Solution {
 
         for (int k : course) {
             int max = 0;
-            for (String key : combiMap.keySet()) {
+            for (String key : combinationMap.keySet()) {
                 if (key.length() == k) {
-                    max = Math.max(max, combiMap.get(key));
+                    max = Math.max(max, combinationMap.get(key));
                 }
             }
             if (max >= 2) {
-                for (String key : combiMap.keySet()) {
-                    if (key.length() == k && combiMap.get(key) == max) {
+                for (String key : combinationMap.keySet()) {
+                    if (key.length() == k && combinationMap.get(key) == max) {
                         answerList.add(key);
                     }
                 }
             }
         }
         answerList.sort(String::compareTo);
-        return answerList.toArray(new String[answerList.size()]);
+        return answerList.toArray(new String[0]);
     }
 
-    public static void combination(char[] arr, int[] combi, int index, int n, int r, int target,
-        Map<String, Integer> combiMap) {
+    public void combination(char[] order, int[] combination, int index, int n, int r, int target) {
         if (r == 0) {
-            StringBuilder combiStr = new StringBuilder();
-            for (int j : combi) {
-                combiStr.append(arr[j]);
+            StringBuilder sb = new StringBuilder();
+            for (int i : combination) {
+                sb.append(order[i]);
             }
-            combiMap.merge(combiStr.toString(), 1, Integer::sum);
+            combinationMap.put(sb.toString(), combinationMap.getOrDefault(sb.toString(), 0) + 1);
             return;
-        } else if (target == n) {
-            return;
-        } else {
-            combi[index] = target;
-            combination(arr, combi, index + 1, n, r - 1, target + 1, combiMap);
-            combination(arr, combi, index, n, r, target + 1, combiMap);
         }
+        if (target == n) {
+            return;
+        }
+        combination[index] = target;
+        combination(order, combination, index + 1, n, r - 1, target + 1);
+        combination(order, combination, index, n, r, target + 1);
     }
 }
