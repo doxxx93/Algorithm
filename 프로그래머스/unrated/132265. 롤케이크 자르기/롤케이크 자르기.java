@@ -1,26 +1,32 @@
-import java.util.*;
-
 class Solution {
 
     public int solution(int[] topping) {
-        int[] prefix = new int[topping.length];
-        int[] suffix = new int[topping.length];
-        Set<Integer> set = new TreeSet<>();
-        for (int i = 0; i < topping.length; i++) {
-            set.add(topping[i]);
-            prefix[i] = set.size();
+        int[] left = new int[10001];
+        int[] right = new int[10001];
+        int r = 0;
+        for (int x : topping) {
+            if (right[x] == 0) {
+                r++;
+            }
+            right[x]++;
         }
-        set.clear();
-        for (int i = topping.length - 1; i >= 0; i--) {
-            set.add(topping[i]);
-            suffix[i] = set.size();
-        }
-        int count = 0;
-        for (int i = 0; i < topping.length - 1; i++) {
-            if (prefix[i] == suffix[i + 1]) {
-                count++;
+        int ans = 0;
+        int l = 0;
+        for (int x : topping) {
+            if (right[x] == 1) {
+                r--;
+            }
+
+            if (left[x] == 0) {
+                l++;
+            }
+            right[x]--;
+            left[x]++;
+
+            if (l == r) {
+                ans++;
             }
         }
-        return count;
+        return ans;
     }
 }
