@@ -7,58 +7,53 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int x = Integer.parseInt(st.nextToken());
-        int y = Integer.parseInt(st.nextToken());
-        List<Point> list = new ArrayList<>();
-        Set<Point> set = new HashSet<>();
+        int a = Integer.parseInt(st.nextToken());
+        int b = Integer.parseInt(st.nextToken());
+        int[][] points = new int[n][2];
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            list.add(new Point(a, b));
-            set.add(new Point(a, b));
+            points[i][0] = Integer.parseInt(st.nextToken());
+            points[i][1] = Integer.parseInt(st.nextToken());
         }
-        int a, b;
-        int answer = 0;
+
+        int count = 0;
+        // sort points by x then y
+        Arrays.sort(points, (p1, p2) -> {
+            if (p1[0] == p2[0]) {
+                return p1[1] - p2[1];
+            }
+            return p1[0] - p2[0];
+        });
+
+        // count number of points that can make rectangle size of a x b
+        // using two pointers
         for (int i = 0; i < n; i++) {
-            a = list.get(i).x;
-            b = list.get(i).y;
-            if (!set.contains(new Point(a + x, b))) {
+            int x = points[i][0];
+            int y = points[i][1];
+            // if there are (x + a , y) && (x + a, y + b) && (x, y + b) -> count++
+            if (!contains(points, x + a, y) || !contains(points, x + a, y + b) || !contains(points,
+                x, y + b)) {
                 continue;
             }
-            if (!set.contains(new Point(a, b + y))) {
-                continue;
-            }
-            if (!set.contains(new Point(a + x, b + y))) {
-                continue;
-            }
-            answer++;
+            count++;
         }
-        System.out.println(answer);
+        System.out.println(count);
     }
 
-    static class Point {
-        int x, y;
-        Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
+    private static boolean contains(int[][] points, int x, int y) {
+        int l = 0;
+        int r = points.length - 1;
+        while (l <= r) {
+            int mid = l + (r - l) / 2;
+            if (points[mid][0] == x && points[mid][1] == y) {
                 return true;
             }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
+            if (points[mid][0] < x || (points[mid][0] == x && points[mid][1] < y)) {
+                l = mid + 1;
+            } else {
+                r = mid - 1;
             }
-            Point point = (Point) o;
-            return x == point.x && y == point.y;
         }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(x, y);
-        }
+        return false;
     }
 }
