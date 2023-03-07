@@ -1,10 +1,10 @@
-# [Silver II] 보석 상자 - 2792 
+# [Silver I] 보석 상자 - 2792 
 
 [문제 링크](https://www.acmicpc.net/problem/2792) 
 
 ### 성능 요약
 
-메모리: 34728 KB, 시간: 380 ms
+메모리: 34888 KB, 시간: 352 ms
 
 ### 분류
 
