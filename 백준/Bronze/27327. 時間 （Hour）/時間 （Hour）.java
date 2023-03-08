@@ -1,0 +1,1 @@
+interface Main{static void main(String[]z){System.out.print(24*new java.util.Scanner(System.in).nextInt());}}
