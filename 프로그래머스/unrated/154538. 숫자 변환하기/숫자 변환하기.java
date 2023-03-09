@@ -5,7 +5,7 @@ class Solution {
     public int solution(int x, int y, int n) {
         int count = 0;
         Queue<Integer> queue = new LinkedList<>();
-        Set<Integer> visited = new HashSet<>();
+        Set<Integer> visited = new TreeSet<>();
         queue.add(x);
         visited.add(x);
         while (!queue.isEmpty()) {
