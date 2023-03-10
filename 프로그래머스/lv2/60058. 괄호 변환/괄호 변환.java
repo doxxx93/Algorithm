@@ -6,9 +6,9 @@ class Solution {
      */
     public String solution(String w) {
         // 1. 입력이 빈 문자열인 경우, 빈 문자열을 반환합니다.
-        if (w.isEmpty()) {
+        if (w.isEmpty()||isCorrect(w)) {
             return w;
-        }
+        } 
         
         // 2. 문자열 w를 두 "균형잡힌 괄호 문자열" u, v로 분리합니다.
         int left = 0;
