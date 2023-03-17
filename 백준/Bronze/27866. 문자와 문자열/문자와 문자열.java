@@ -1,0 +1,1 @@
+interface Main{static void main(String[]z){var s=new java.util.Scanner(System.in);System.out.print(s.next().charAt(s.nextInt()-1));}}
