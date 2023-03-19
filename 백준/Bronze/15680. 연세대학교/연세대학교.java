@@ -1,1 +1,1 @@
-interface Main{static void main(String[]z){System.out.print(new String[]{"YONSEI","Leading the Way to the Future"}[new java.util.Scanner(System.in).nextInt()]);}}
+interface Main{static void main(String[]z)throws Exception{System.out.print("YONSEIZLeading the Way to the Future".split("Z")[System.in.read()-48]);}}
