@@ -1,0 +1,1 @@
+interface Main{static void main(String[]z){System.out.print(new String[]{"YONSEI","Leading the Way to the Future"}[new java.util.Scanner(System.in).nextInt()]);}}
