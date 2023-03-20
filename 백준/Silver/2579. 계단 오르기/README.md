@@ -8,7 +8,7 @@
 
 ### 분류
 
-다이나믹 프로그래밍(dp)
+Dynamic Programming
 
 ### 문제 설명
 
