@@ -1,32 +1,60 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main {
+public class Main {
+
+    static int n;
+    static int[] arr;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        int[] a = new int[n];
+        n = Integer.parseInt(br.readLine());
+        arr = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        System.out.println(LIS(arr));
+    }
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            a[i] = Integer.parseInt(st.nextToken());
-        }
-        int[] dp = new int[n];
-        dp[0] = 1;
-        for (int i = 1; i < n; i++) {
-            dp[i] = 1;
-            for (int j = 0; j < i; j++) {
-                if (a[i] > a[j]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
+    private static int upperBound(int[] ar, int l, int r, int key) {
+        while (l < r - 1) {
+            int m = (l + r) >>> 1;
+            if (ar[m] >= key) {
+                r = m;
+            } else {
+                l = m;
             }
         }
 
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < n; i++) {
-            max = Math.max(max, dp[i]);
+        return r;
+    }
+
+    private static int LIS(int[] array) {
+        int N = array.length;
+        if (N == 0) {
+            return 0;
         }
-        System.out.println(max);
+
+        int[] tail = new int[N];
+
+        // always points empty slot in tail
+        int length = 1;
+
+        tail[0] = array[0];
+        for (int i = 1; i < N; i++) {
+            // new smallest value
+            if (array[i] < tail[0]) {
+                tail[0] = array[i];
+            } // array[i] extends largest subsequence
+            else if (array[i] > tail[length - 1]) {
+                tail[length++] = array[i];
+            } // array[i] will become end candidate of an existing subsequence or
+            // Throw away larger elements in all LIS, to make room for upcoming grater elements than
+            // array[i]
+            // (and also, array[i] would have already appeared in one of LIS, identify the location and
+            // replace it)
+            else {
+                tail[upperBound(tail, -1, length - 1, array[i])] = array[i];
+            }
+        }
+
+        return length;
     }
 }
