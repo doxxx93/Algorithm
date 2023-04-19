@@ -12,21 +12,24 @@ public class Main {
             arr[i] = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
         }
 
+        // 왼쪽 전봇대에서의 번호 순으로 정렬
         Arrays.sort(arr, Comparator.comparingInt(a -> a[0]));
 
         int[] dp = new int[n];
-        int max = 0;
+        int length = 0;
 
+        // 최장 증가 부분수열 찾기
         for (int i = 0; i < n; i++) {
-            dp[i] = 1;
-            for (int j = 0; j < i; j++) {
-                if (arr[i][1] > arr[j][1]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
+            int pos = Arrays.binarySearch(dp, 0, length, arr[i][1]);
+            if (pos < 0) {
+                pos = -pos - 1;
             }
-            max = Math.max(max, dp[i]);
+            dp[pos] = arr[i][1];
+            if (pos == length) {
+                length++;
+            }
         }
 
-        System.out.println(n - max);
+        System.out.println(n - length);
     }
 }
