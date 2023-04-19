@@ -4,12 +4,11 @@ import java.util.*;
 public class Main {
 
     static int n;
-    static int a;
-    static int b;
+    static int from;
+    static int to;
     static int m;
     static List<ArrayList<Integer>> adj;
 
-    static int dist;
     static int ans;
     static boolean[] visited;
 
@@ -17,8 +16,8 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
-        a = Integer.parseInt(st.nextToken());
-        b = Integer.parseInt(st.nextToken());
+        from = Integer.parseInt(st.nextToken());
+        to = Integer.parseInt(st.nextToken());
         visited = new boolean[n + 1];
         adj = new ArrayList<>();
         for (int i = 0; i < n + 1; i++) {
@@ -36,8 +35,7 @@ public class Main {
         }
 
         ans = Integer.MAX_VALUE;
-        dist = 0;
-        dfs(a, b);
+        dfs(from, 0);
         if (ans == Integer.MAX_VALUE) {
             System.out.println(-1);
         } else {
@@ -45,19 +43,17 @@ public class Main {
         }
     }
 
-    public static void dfs(int cur, int tar) {
-        if (cur == tar) {
+    public static void dfs(int cur, int dist) {
+        visited[cur] = true;
+        if (cur == to) {
             ans = Math.min(ans, dist);
             return;
         }
-        visited[cur] = true;
         for (int nxt : adj.get(cur)) {
             if (visited[nxt]) {
                 continue;
             }
-            dist++;
-            dfs(nxt, tar);
-            dist--;
+            dfs(nxt, dist + 1);
         }
     }
 }
