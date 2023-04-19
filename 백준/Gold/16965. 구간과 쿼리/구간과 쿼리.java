@@ -3,54 +3,67 @@ import java.util.*;
 
 public class Main {
 
-    static int[] x, y;
-    static int sz;
+    static boolean[] visited;
+    static List<ArrayList<Integer>> adj;
+    static List<int[]> edges;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
+        int a, b, c;
         StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
-        x = new int[100];
-        y = new int[100];
-        sz = 0;
+        adj = new ArrayList<>();
+        edges = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
-            int q = Integer.parseInt(st.nextToken());
-            if (q == 1) {
-                x[sz] = Integer.parseInt(st.nextToken());
-                y[sz] = Integer.parseInt(st.nextToken());
-                sz++;
+            a = Integer.parseInt(st.nextToken());
+            b = Integer.parseInt(st.nextToken());
+            c = Integer.parseInt(st.nextToken());
+            if (a == 1) {
+                int[] input = {b, c};
+                edges.add(input);
+                for (int j = 0; j < edges.size() - 1; j++) {
+                    if (canGo(input, edges.get(j))) {
+                        adj.get(edges.size() - 1).add(j);
+                    }
+                    if (canGo(edges.get(j), input)) {
+                        adj.get(j).add(edges.size() - 1);
+                    }
+                }
             } else {
-                int u = Integer.parseInt(st.nextToken()) - 1;
-                int v = Integer.parseInt(st.nextToken()) - 1;
-                sb.append(bfs(u, v) + "\n");
-            }
-        }
-        System.out.println(sb);
-    }
-
-    public static int bfs(int src, int dst) {
-        boolean[] visited = new boolean[sz];
-        visited[src] = true;
-        Queue<Integer> q = new ArrayDeque<>();
-        q.offer(src);
-        while (!q.isEmpty()) {
-            int u = q.poll();
-            if (u == dst) {
-                return 1;
-            }
-            for (int v = 0; v < sz; v++) {
-                if (!visited[v] && inRange(v, u)) {
-                    visited[v] = true;
-                    q.offer(v);
+                visited = new boolean[n];
+                if (dfs(b - 1, c - 1)) {
+                    System.out.println("1");
+                } else {
+                    System.out.println("0");
                 }
             }
         }
-        return 0;
     }
 
-    public static boolean inRange(int a, int b) {
-        return (x[a] < x[b] && x[b] < y[a]) || (x[a] < y[b] && y[b] < y[a]);
+    public static boolean dfs(int cur, int x) {
+        if (cur == x) {
+            return true;
+        }
+        visited[cur] = true;
+        for (int next : adj.get(cur)) {
+            if (visited[next]) {
+                continue;
+            }
+
+            if (dfs(next, x)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean canGo(int[] from, int[] to) {
+        return (to[0] < from[0] && from[0] < to[1]) || (to[0] < from[1] && from[1] < to[1]);
     }
 }
