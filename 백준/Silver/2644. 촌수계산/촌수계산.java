@@ -3,57 +3,61 @@ import java.util.*;
 
 public class Main {
 
-    static List<List<Integer>> graph;
-    static boolean[] visited;
-    static int distance;
+    static int n;
+    static int a;
+    static int b;
+    static int m;
+    static List<ArrayList<Integer>> adj;
 
-    static List<Integer> result;
+    static int dist;
+    static int ans;
+    static boolean[] visited;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        n = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int a = Integer.parseInt(st.nextToken());
-        int b = Integer.parseInt(st.nextToken());
-
-        int m = Integer.parseInt(br.readLine());
-        graph = new ArrayList<>();
-        graph.add(null);
-        for (int i = 0; i < n; i++) {
-            graph.add(new LinkedList<>());
+        a = Integer.parseInt(st.nextToken());
+        b = Integer.parseInt(st.nextToken());
+        visited = new boolean[n + 1];
+        adj = new ArrayList<>();
+        for (int i = 0; i < n + 1; i++) {
+            adj.add(new ArrayList<>());
         }
+
+        m = Integer.parseInt(br.readLine());
+
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            int from = Integer.parseInt(st.nextToken());
-            int to = Integer.parseInt(st.nextToken());
-            graph.get(from).add(to);
-            graph.get(to).add(from);
+            int x = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken());
+            adj.get(x).add(y);
+            adj.get(y).add(x);
         }
-        visited = new boolean[n + 1];
-        distance = 0;
-        result = new ArrayList<>();
+
+        ans = Integer.MAX_VALUE;
+        dist = 0;
         dfs(a, b);
-        if (result.size() == 0) {
+        if (ans == Integer.MAX_VALUE) {
             System.out.println(-1);
         } else {
-            Collections.sort(result);
-            System.out.println(result.get(0));
+            System.out.println(ans);
         }
     }
 
-    public static void dfs(int curr, int target) {
-        if (curr == target) {
-            result.add(distance);
+    public static void dfs(int cur, int tar) {
+        if (cur == tar) {
+            ans = Math.min(ans, dist);
             return;
         }
-        visited[curr] = true;
-        for (int next : graph.get(curr)) {
-            if (visited[next]) {
+        visited[cur] = true;
+        for (int nxt : adj.get(cur)) {
+            if (visited[nxt]) {
                 continue;
             }
-            distance++;
-            dfs(next, target);
-            distance--;
+            dist++;
+            dfs(nxt, tar);
+            dist--;
         }
     }
 }
