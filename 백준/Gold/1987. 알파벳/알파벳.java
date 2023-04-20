@@ -1,52 +1,48 @@
 import java.io.*;
 import java.util.*;
 
-/**
- * 완전탐색
- * 최장 거리 -> Non-Poly
- * Back Tracking
- * <p>
- * 돌아다니는 과정 정보
- * 1. 현재 위치
- * 2. 밟았던 알파벳
- * 3. 이때까지 이동 길이
- */
 public class Main {
 
-    static int r, c, ans;
-    static char[][] a;
-    static boolean[] used;
-    static int[][] dirs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    static final int[] dx = {0, 1, 0, -1};
+    static final int[] dy = {1, 0, -1, 0};
+    static int r;
+    static int c;
+
+    static char[][] map;
+    static boolean[] visited;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         r = Integer.parseInt(st.nextToken());
         c = Integer.parseInt(st.nextToken());
-
-        a = new char[r][c];
+        map = new char[r][c];
+        visited = new boolean[26];
 
         for (int i = 0; i < r; i++) {
-            a[i] = br.readLine().toCharArray();
+            map[i] = br.readLine().toCharArray();
         }
-        // 정답 변수,
-        ans = 0;
-        used = new boolean[26];
 
-        backtracking(0, 0, 1);
-        System.out.println(ans);
+        visited[map[0][0] - 'A'] = true;
+
+        System.out.println(dfs(0, 0, 1));
     }
 
-    private static void backtracking(int x, int y, int count) {
-        ans = Math.max(ans, count);
-        used[a[x][y] - 'A'] = true;
-        for (int[] dir : dirs) {
-            int nx = x + dir[0];
-            int ny = y + dir[1];
-            if (0 <= nx && nx < r && 0 <= ny && ny < c && !used[a[nx][ny] - 'A']) {
-                backtracking(nx, ny, count + 1);
+    public static int dfs(int x, int y, int cnt) {
+        int max = cnt;
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (inRange(nx, ny) && !visited[map[nx][ny] - 'A']) {
+                visited[map[nx][ny] - 'A'] = true;
+                max = Math.max(max, dfs(nx, ny, cnt + 1));
+                visited[map[nx][ny] - 'A'] = false;
             }
         }
-        used[a[x][y] - 'A'] = false;
+        return max;
+    }
+
+    public static boolean inRange(int x, int y) {
+        return x >= 0 && x < r && y >= 0 && y < c;
     }
 }
