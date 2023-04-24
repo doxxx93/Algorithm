@@ -36,10 +36,10 @@ public class Main {
         dist = new int[n + 1];
         visited = new boolean[n + 1];
         max = new int[n + 1];
-        if (a == b) {
-            System.out.println(0);
-            return;
-        }
+//        if (a == b) {
+//            System.out.println(0);
+//            return;
+//        }
         dfs(a, 0, 0);
         System.out.println(dist[b] - max[b]);
     }
