@@ -24,13 +24,10 @@ public class Main {
                 continue;
             }
             dfs(i);
-            visited = new boolean[n + 1];
+            Arrays.fill(visited, false);
         }
         System.out.println(count);
-        Collections.sort(new ArrayList<>(result));
-        for (int i : result) {
-            System.out.println(i);
-        }
+        result.forEach(System.out::println);
     }
 
     public static void dfs(int cur) {
