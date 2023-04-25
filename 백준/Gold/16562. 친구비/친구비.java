@@ -3,11 +3,10 @@ import java.util.*;
 
 public class Main {
 
-    static List<List<Integer>> graph;
+    static List<ArrayList<Integer>> graph;
     static boolean[] visited;
     static long[] fee;
     static int n;
-
     static long sum;
 
     public static void main(String[] args) throws IOException {
@@ -24,7 +23,7 @@ public class Main {
         graph = new ArrayList<>();
         graph.add(null);
         for (int i = 0; i < n; i++) {
-            graph.add(new LinkedList<>());
+            graph.add(new ArrayList<>());
         }
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
@@ -48,14 +47,15 @@ public class Main {
             System.out.println("Oh no");
         }
     }
+
     public static void dfs(int cur) {
         visited[cur] = true;
         sum = Math.min(sum, fee[cur]);
-        for (int next : graph.get(cur)) {
-            if (visited[next]) {
+        for (int nxt : graph.get(cur)) {
+            if (visited[nxt]) {
                 continue;
             }
-            dfs(next);
+            dfs(nxt);
         }
     }
 }
