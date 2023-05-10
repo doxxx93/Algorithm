@@ -1,71 +1,68 @@
 import java.io.*;
-import java.util.*;
 import java.util.stream.*;
 
 public class Main {
 
+    static int n;
     static Node[] tree;
     static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        n = Integer.parseInt(br.readLine());
         tree = IntStream.range(0, n).mapToObj(i -> new Node((char) ('A' + i))).toArray(Node[]::new);
-        StringTokenizer st;
-        for (int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
-            char root = st.nextToken().charAt(0);
-            char left = st.nextToken().charAt(0);
-            char right = st.nextToken().charAt(0);
+        while (n-- > 0) {
+            char[] input = br.readLine().toCharArray();
+            char data = input[0];
+            char left = input[2];
+            char right = input[4];
             if (left != '.') {
-                tree[root - 'A'].left = tree[left - 'A'];
+                tree[data - 'A'].left = tree[left - 'A'];
             }
             if (right != '.') {
-                tree[root - 'A'].right = tree[right - 'A'];
+                tree[data - 'A'].right = tree[right - 'A'];
             }
         }
-        preOrder(tree[0]);
+        preorder(tree[0]);
         sb.append("\n");
-        inOrder(tree[0]);
+        inorder(tree[0]);
         sb.append("\n");
-        postOrder(tree[0]);
+        postorder(tree[0]);
         System.out.println(sb);
     }
 
-    private static void preOrder(Node node) {
-        sb.append(node.data);
-        if (node.left != null) {
-            preOrder(node.left);
-        }
-        if (node.right != null) {
-            preOrder(node.right);
-        }
-    }
-
-    private static void inOrder(Node node) {
-        if (node.left != null) {
-            inOrder(node.left);
+    static void preorder(Node node) {
+        if (node == null) {
+            return;
         }
         sb.append(node.data);
-        if (node.right != null) {
-            inOrder(node.right);
-        }
+        preorder(node.left);
+        preorder(node.right);
     }
-
-    private static void postOrder(Node node) {
-        if (node.left != null) {
-            postOrder(node.left);
+    
+    static void inorder(Node node) {
+        if (node == null) {
+            return;
         }
-        if (node.right != null) {
-            postOrder(node.right);
+        inorder(node.left);
+        sb.append(node.data);
+        inorder(node.right);
+    }
+    
+    static void postorder(Node node) {
+        if (node == null) {
+            return;
         }
+        postorder(node.left);
+        postorder(node.right);
         sb.append(node.data);
     }
 
     static class Node {
 
-        Node left, right;
         char data;
+        Node left;
+        Node right;
 
         public Node(char data) {
             this.data = data;
