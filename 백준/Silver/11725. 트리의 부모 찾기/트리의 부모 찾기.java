@@ -1,40 +1,45 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class Main {
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+class Main{
+    
+    public static void main(String[] z)throws IOException{
+        var br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        List<Integer>[] tree = new List[n + 1];
-        for (int i = 1; i <= n; i++) {
-            tree[i] = new ArrayList<>();
+        int[] parent = new int[n+1];
+        ArrayList<Integer>[] adj = new ArrayList[n+1];
+        boolean[] visited = new boolean[n+1];
+        
+        for(int i = 1; i <= n; i++){
+            adj[i] = new ArrayList<>();
         }
+        
         StringTokenizer st;
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 1; i<n; i++){
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
-            tree[a].add(b);
-            tree[b].add(a);
+            adj[a].add(b);
+            adj[b].add(a);
         }
-        boolean[] visited = new boolean[n + 1];
+        
         Queue<Integer> q = new LinkedList<>();
         q.add(1);
         visited[1] = true;
-        int[] result = new int[n + 1];
-        while (!q.isEmpty()) {
-            Integer node = q.poll();
-            for (Integer x : tree[node]) {
-                if (!visited[x]) {
-                    visited[x] = true;
-                    q.add(x);
-                    result[x] = node;
+        while(!q.isEmpty()){
+            int cur = q.poll();
+            for( int x : adj[cur]){
+                if(visited[x]){
+                    continue;
                 }
+                visited[x] = true;
+                q.add(x);
+                parent[x] = cur;
             }
         }
-        for (int i =2 ; i <= n; i++) {
-            System.out.println(result[i]);
+        
+        for(int i = 2; i <=n; i++){
+            System.out.println(parent[i]);
         }
     }
 }
