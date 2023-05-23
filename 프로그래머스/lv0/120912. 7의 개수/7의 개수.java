@@ -1,17 +1,21 @@
-class Solution {
+import java.util.*;
+import java.util.stream.Collectors;
 
+class Solution {
     public int solution(int[] array) {
-        int count = 0;
-        for (int x : array) {
-            int tmp = 0;
-            while (x > 0) {
-                if (x % 10 == 7) {
-                    tmp++;
-                }
-                x /= 10;
-            }
-            count += tmp;
-        }
-        return count;
+//        return (int) Arrays.stream(
+//                Arrays.stream(array)
+//                    .mapToObj(String::valueOf)
+//                    .collect(Collectors.joining())
+//                    .split("")
+//            )
+//            .filter(s -> s.equals("7"))
+//            .count();
+        return (int) Arrays.stream(array)
+            .mapToObj(String::valueOf)
+            .collect(Collectors.joining())
+            .chars()
+            .filter(c -> c == '7')
+            .count();
     }
 }
