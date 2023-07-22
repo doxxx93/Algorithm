@@ -8,6 +8,10 @@ fn main() {
     let b: i32 = iter.next().unwrap().parse().unwrap();
     let c: i32 = iter.next().unwrap().parse().unwrap();
 
+    calculate(a, b, c);
+}
+
+pub fn calculate(a:i32, b:i32, c:i32){
     if a + b == c {
         println!("{}+{}={}", a, b, c);
     } else if a - b == c {
