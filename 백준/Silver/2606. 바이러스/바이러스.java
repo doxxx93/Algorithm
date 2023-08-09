@@ -3,46 +3,43 @@ import java.util.*;
 
 public class Main {
 
-    static int n;
-    static int p;
-    static List<ArrayList<Integer>> adj;
-
-    static int count = 0;
-    static boolean[] checked;
+    static boolean[] visited;
+    static List<List<Integer>> graph;
+    static int count;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
-        p = Integer.parseInt(br.readLine());
-        adj = new ArrayList<>();
-        checked = new boolean[n + 1];
-        for (int i = 0; i < n + 1; i++) {
-            adj.add(new ArrayList<>());
+        int n = Integer.parseInt(br.readLine());
+        int m = Integer.parseInt(br.readLine());
+
+        graph = new ArrayList<>();
+        graph.add(null);
+        for (int i = 0; i < n; i++) {
+            graph.add(new LinkedList<>());
         }
 
         StringTokenizer st;
-
-        for (int i = 0; i < p; i++) {
+        for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            adj.get(a).add(b);
-            adj.get(b).add(a);
+            int from = Integer.parseInt(st.nextToken());
+            int to = Integer.parseInt(st.nextToken());
+            graph.get(from).add(to);
+            graph.get(to).add(from);
         }
-
+        visited = new boolean[n + 1];
+        count = 0;
         dfs(1);
-
         System.out.println(count - 1);
     }
 
-    private static void dfs(int cur) {
-        checked[cur] = true;
+    public static void dfs(int cur) {
+        visited[cur] = true;
         count++;
-        for (int nxt : adj.get(cur)) {
-            if (checked[nxt]) {
+        for (int next : graph.get(cur)) {
+            if (visited[next]) {
                 continue;
             }
-            dfs(nxt);
+            dfs(next);
         }
     }
 }
