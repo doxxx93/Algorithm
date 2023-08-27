@@ -3,49 +3,54 @@ import java.util.*;
 
 public class Main {
 
-    static List<Character> ops;
-    static List<Integer> numbers;
-    static int answer = Integer.MIN_VALUE;
+    static List<Character> operators;
+    static List<Integer> operands;
+    static int max = Integer.MIN_VALUE;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
         String input = br.readLine();
-        numbers = new ArrayList<>();
-        ops = new ArrayList<>();
+
+        operands = new ArrayList<>();
+        operators = new ArrayList<>();
+
         for (int i = 0; i < n; i++) {
-            if (i % 2 == 0) {
-                numbers.add(input.charAt(i) - '0');
+            char c = input.charAt(i);
+            if (Character.isDigit(c)) {
+                operands.add(c - '0');
             } else {
-                ops.add(input.charAt(i));
+                operators.add(c);
             }
         }
 
-        dfs(0, numbers.get(0));
-        System.out.println(answer);
+        solve(0, operands.get(0));
+
+        System.out.println(max);
     }
 
-    private static void dfs(int index, int result) {
-        if (index >= ops.size()) {
-            answer = Math.max(result, answer);
+    private static void solve(int index, int result) {
+        if (index >= operators.size()) {
+            max = Math.max(result, max);
             return;
         }
 
-        dfs(index + 1, calculate(result, numbers.get(index + 1), ops.get(index)));
-
-        if (index + 1 >= ops.size()) {
-            return;
+        // Consider the priority of the next operation
+        if (index + 1 < operators.size()) {
+            int nextResult = calc(operands.get(index + 1), operands.get(index + 2), operators.get(index + 1));
+            solve(index + 2, calc(result, nextResult, operators.get(index)));
         }
-        dfs(index + 2, calculate(result, calculate(numbers.get(index + 1), numbers.get(index + 2),
-            ops.get(index + 1)), ops.get(index)));
+
+        // Next operation without considering priority
+        solve(index + 1, calc(result, operands.get(index + 1), operators.get(index)));
     }
 
-    private static int calculate(int x, int y, char op) {
+    private static int calc(int a, int b, char op) {
         if (op == '+') {
-            return x + y;
+            return a + b;
         } else if (op == '-') {
-            return x - y;
+            return a - b;
         }
-        return x * y;
+        return a * b;
     }
 }
