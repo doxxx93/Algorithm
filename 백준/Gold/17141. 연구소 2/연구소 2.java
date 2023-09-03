@@ -1,20 +1,27 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+class Point {
+    int x, y;
 
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+public class Main {
     static final int EMPTY = 0;
     static final int WALL = 1;
     static final int VIRUS = 2;
-    static final int[] dx = {0, 1, 0, -1};
-    static final int[] dy = {1, 0, -1, 0};
+    static final Point[] directions = {new Point(0,1), new Point(1,0), new Point(0,-1), new Point(-1,0)};
     static int n;
     static int m;
     static int filled;
     static int[][] map;
     static boolean[][] visited;
     static int minTime;
-    static List<int[]> virusList = new ArrayList<>();
+    static List<Point> virusList = new ArrayList<>();
     static int[] selectedVirus;
 
     public static void main(String[] args) throws IOException {
@@ -33,7 +40,7 @@ public class Main {
             for (int j = 0; j < n; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
                 if (map[i][j] == VIRUS) {
-                    virusList.add(new int[]{i, j});
+                    virusList.add(new Point(i, j));
                 }
                 if (map[i][j] == WALL) {
                     wallCount++;
@@ -50,21 +57,19 @@ public class Main {
 
         minTime = Integer.MAX_VALUE;
 
-        int size = virusList.size();
-
-        combination(0, size, 0);
+        combination(0, virusList.size(), 0);
 
         System.out.println(minTime == Integer.MAX_VALUE ? -1 : minTime);
     }
 
     private static void combination(int start, int size, int index) {
         if (index == m) {
-            for (int i = 0; i < n; i++) {
-                Arrays.fill(visited[i], false);
+            for (boolean[] row : visited) {
+                Arrays.fill(row, false);
             }
             for (int i = 0; i < m; i++) {
-                int[] virus = virusList.get(selectedVirus[i]);
-                visited[virus[0]][virus[1]] = true;
+                Point virus = virusList.get(selectedVirus[i]);
+                visited[virus.x][virus.y] = true;
             }
             minTime = Math.min(minTime, bfs());
             return;
@@ -79,11 +84,11 @@ public class Main {
     private static int bfs() {
         int time = 0;
         int count = 0;
-        Queue<int[]> queue = new LinkedList<>();
-
-        for (int[] ints : virusList) {
-            if (visited[ints[0]][ints[1]]) {
-                queue.offer(ints);
+        Queue<Point> queue = new LinkedList<>();
+        
+        for (Point virus : virusList) {
+            if (visited[virus.x][virus.y]) {
+                queue.offer(virus);
             }
         }
 
@@ -92,11 +97,11 @@ public class Main {
             time++;
 
             for (int i = 0; i < size; i++) {
-                int[] current = queue.poll();
+                Point current = queue.poll();
 
-                for (int j = 0; j < 4; j++) {
-                    int nx = current[0] + dx[j];
-                    int ny = current[1] + dy[j];
+                for (Point direction : directions) {
+                    int nx = current.x + direction.x;
+                    int ny = current.y + direction.y;
 
                     if (nx < 0 || nx >= n || ny < 0 || ny >= n) {
                         continue;
@@ -115,7 +120,7 @@ public class Main {
                     }
 
                     visited[nx][ny] = true;
-                    queue.offer(new int[]{nx, ny});
+                    queue.offer(new Point(nx, ny));
                 }
             }
         }
