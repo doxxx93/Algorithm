@@ -37,6 +37,10 @@ class Solution {
             return false;
         }
 
+        if (board[x][y] == '0') {
+            return false;
+        }
+
         char tmp = board[x][y];
         board[x][y] = '0';
 
