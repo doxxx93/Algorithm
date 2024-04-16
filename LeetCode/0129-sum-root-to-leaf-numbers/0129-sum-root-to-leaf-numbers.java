@@ -1,18 +1,3 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- * int val;
- * TreeNode left;
- * TreeNode right;
- * TreeNode() {}
- * TreeNode(int val) { this.val = val; }
- * TreeNode(int val, TreeNode left, TreeNode right) {
- * this.val = val;
- * this.left = left;
- * this.right = right;
- * }
- * }
- */
 class Solution {
     public int sumNumbers(TreeNode root) {
         if (root == null) {
@@ -26,8 +11,8 @@ class Solution {
         sq.push(root.val);
 
         while (!q.isEmpty()) {
-            TreeNode node = q.poll();
-            int num = sq.poll();
+            TreeNode node = q.pop();
+            int num = sq.pop();
 
             if (node.left == null && node.right == null) {
                 sum += num;
