@@ -20,10 +20,10 @@ class Solution {
         }
 
         int sum = 0;
-        Queue<TreeNode> q = new LinkedList<>();
-        Queue<Integer> sq = new LinkedList<>();
-        q.offer(root);
-        sq.offer(root.val);
+        Stack<TreeNode> q = new Stack<>();
+        Stack<Integer> sq = new Stack<>();
+        q.push(root);
+        sq.push(root.val);
 
         while (!q.isEmpty()) {
             TreeNode node = q.poll();
@@ -34,13 +34,13 @@ class Solution {
             }
 
             if (node.left != null) {
-                q.offer(node.left);
-                sq.offer(num * 10 + node.left.val);
+                q.push(node.left);
+                sq.push(num * 10 + node.left.val);
             }
 
             if (node.right != null) {
-                q.offer(node.right);
-                sq.offer(num * 10 + node.right.val);
+                q.push(node.right);
+                sq.push(num * 10 + node.right.val);
             }
         }
 
