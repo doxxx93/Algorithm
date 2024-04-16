@@ -1,34 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ * int val;
+ * TreeNode left;
+ * TreeNode right;
+ * TreeNode() {}
+ * TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) {
+ * this.val = val;
+ * this.left = left;
+ * this.right = right;
+ * }
+ * }
+ */
 class Solution {
     public int sumNumbers(TreeNode root) {
+        return dfs(root, 0);
+    }
+
+    public int dfs(TreeNode root, int sum) {
+        // root null
         if (root == null) {
             return 0;
         }
 
-        int sum = 0;
-        Stack<TreeNode> q = new Stack<>();
-        Stack<Integer> sq = new Stack<>();
-        q.push(root);
-        sq.push(root.val);
+        sum = sum * 10 + root.val;
 
-        while (!q.isEmpty()) {
-            TreeNode node = q.pop();
-            int num = sq.pop();
-
-            if (node.left == null && node.right == null) {
-                sum += num;
-            }
-
-            if (node.left != null) {
-                q.push(node.left);
-                sq.push(num * 10 + node.left.val);
-            }
-
-            if (node.right != null) {
-                q.push(node.right);
-                sq.push(num * 10 + node.right.val);
-            }
+        if (root.left == null && root.right == null) {
+            return sum;
         }
 
-        return sum;
+        return dfs(root.left, sum) + dfs(root.right, sum);
     }
 }
