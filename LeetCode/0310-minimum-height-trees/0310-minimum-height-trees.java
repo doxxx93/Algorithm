@@ -5,6 +5,9 @@ import java.util.Map;
 
 class Solution {
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        if (n == 1) {
+            return List.of(0);
+        }
         List<ArrayList<Integer>> adj = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             adj.add(new ArrayList<>());
